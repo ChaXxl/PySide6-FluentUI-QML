@@ -12,8 +12,11 @@ class SettingsHelper(QObject):
 
     def init(self):
         iniFileName = "example.ini"
-        iniFilePath = QStandardPaths.writableLocation(
-            QStandardPaths.AppLocalDataLocation)+"/"+iniFileName
+        iniFilePath = (
+            QStandardPaths.writableLocation(QStandardPaths.AppLocalDataLocation)
+            + "/"
+            + iniFileName
+        )
         self._settings = QSettings(iniFilePath, QSettings.IniFormat)
 
     def _save(self, key, val):
@@ -30,13 +33,13 @@ class SettingsHelper(QObject):
         return int(self._get("darkMode", 0))
 
     @Slot(int)
-    def saveDarkMode(self, darkMode:int):
+    def saveDarkMode(self, darkMode: int):
         self._save("darkMode", darkMode)
 
     @Slot(result=bool)
     def getUseSystemAppBar(self):
-        return bool(self._get('useSystemAppBar', "false") == "true")
+        return bool(self._get("useSystemAppBar", "false") == "true")
 
     @Slot(bool)
-    def saveUseSystemAppBar(self, useSystemAppBar:bool):
-        self._save("useSystemAppBar", useSystemAppBar)    
+    def saveUseSystemAppBar(self, useSystemAppBar: bool):
+        self._save("useSystemAppBar", useSystemAppBar)
