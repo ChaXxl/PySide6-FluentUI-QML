@@ -1,7 +1,3 @@
-# ATTENTION! THIS REPO HAS BEEN DEPRECATED!
-# PLEASE USE THE BRAND NEW [FluentUI-PySide6](https://github.com/zhuzichu520/FluentUI-PySide6) INSTEAD!
-# THIS REPO IS NO LONGER MAINTAINED.
-
 <div align=center>
   <img width=64 src="doc/preview/fluent_design.svg">
 </div>
