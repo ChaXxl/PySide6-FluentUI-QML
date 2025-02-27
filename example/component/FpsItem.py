@@ -1,8 +1,8 @@
 # This Python file uses the following encoding: utf-8
 
-from PySide6.QtCore import Qt, QTimer, Signal, Property
-from PySide6.QtQuick import QQuickPaintedItem
+from PySide6.QtCore import Property, Qt, QTimer, Signal
 from PySide6.QtQml import QmlNamedElement
+from PySide6.QtQuick import QQuickPaintedItem
 
 QML_IMPORT_NAME = "example"
 QML_IMPORT_MAJOR_VERSION = 1

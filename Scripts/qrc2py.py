@@ -1,9 +1,9 @@
 #!C:\Users\zhuzi\AppData\Local\Programs\Python\Python311\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'PySide6-Essentials==6.5.3','console_scripts','pyside6-rcc'
 import os
-import sys
 import site
 import subprocess
+import sys
 
 
 def exec():

@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 
-from PySide6.QtCore import QObject, Slot, QStandardPaths, QSettings, qDebug
 from define import Singleton
+from PySide6.QtCore import QObject, QSettings, QStandardPaths, Slot, qDebug
 
 
 @Singleton

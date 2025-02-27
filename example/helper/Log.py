@@ -1,20 +1,13 @@
 # This Python file uses the following encoding: utf-8
 
-from PySide6.QtCore import (
-    QDir,
-    qInstallMessageHandler,
-    QFile,
-    QTextStream,
-    QtMsgType,
-    QStandardPaths,
-    QDateTime,
-    qDebug,
-    QSysInfo,
-)
+import os
 import sys
 import threading
+
 from AppInfo import AppInfo
-import os
+from PySide6.QtCore import (QDateTime, QDir, QFile, QStandardPaths, QSysInfo,
+                            QTextStream, QtMsgType, qDebug,
+                            qInstallMessageHandler)
 
 QT_ENDL = "\n"
 

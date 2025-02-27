@@ -1,6 +1,6 @@
 # This Python file uses the following encoding: utf-8
 
-from PySide6.QtCore import QObject, Signal, Property, QFileSystemWatcher
+from PySide6.QtCore import Property, QFileSystemWatcher, QObject, Signal
 from PySide6.QtQml import QmlNamedElement
 
 QML_IMPORT_NAME = "example"

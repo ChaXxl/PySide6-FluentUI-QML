@@ -1,26 +1,13 @@
 # This Python file uses the following encoding: utf-8
 from typing import Tuple
-from PySide6.QtCore import (
-    QObject,
-    Slot,
-    Signal,
-    Property,
-    QPoint,
-    QRect,
-    QPropertyAnimation,
-    QPointF,
-    Qt,
-    QSize,
-    QEasingCurve,
-)
-from PySide6.QtGui import QPainter, QImage, QPainterPath
-from PySide6.QtQuick import (
-    QQuickPaintedItem,
-    QQuickItem,
-    QQuickItemGrabResult,
-    QSharedPointer_QQuickItemGrabResult,
-)
+
+from PySide6.QtCore import (Property, QEasingCurve, QObject, QPoint, QPointF,
+                            QPropertyAnimation, QRect, QSize, Qt, Signal, Slot)
+from PySide6.QtGui import QImage, QPainter, QPainterPath
 from PySide6.QtQml import QmlNamedElement
+from PySide6.QtQuick import (QQuickItem, QQuickItemGrabResult,
+                             QQuickPaintedItem,
+                             QSharedPointer_QQuickItemGrabResult)
 
 QML_IMPORT_NAME = "example"
 QML_IMPORT_MAJOR_VERSION = 1
