@@ -76,7 +76,7 @@ This FluentUI library currently licensed under [MIT License](./License)
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=zhuzichu520/PySide6-FluentUI-QML&type=Date)](https://star-history.com/#zhuzichu520/PySide6-FluentUI-QML&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=ChaXxl/PySide6-FluentUI-QML&type=Date)](https://star-history.com/#ChaXxl/PySide6-FluentUI-QML&Date)
 
 ## ⚡ Visitor count
 ![](https://profile-counter.glitch.me/ChaXxl-PySide6-FluentUI-QML/count.svg)
