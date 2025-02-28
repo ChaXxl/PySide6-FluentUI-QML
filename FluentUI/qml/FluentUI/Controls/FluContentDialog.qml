@@ -8,9 +8,9 @@ FluPopup {
     id: control
     property string title: ""
     property string message: ""
-    property string neutralText: "Neutral"
-    property string negativeText: "Negative"
-    property string positiveText: "Positive"
+    property string neutralText: qsTr("Close")
+    property string negativeText: qsTr("Cancel")
+    property string positiveText: qsTr("OK")
     property int messageTextFormart: Text.AutoText
     property int delayTime: 100
     property int buttonFlags: FluContentDialogType.NegativeButton | FluContentDialogType.PositiveButton
@@ -41,7 +41,7 @@ FluPopup {
             FluText{
                 id:text_message
                 font: FluTextStyle.Body
-                wrapMode: Text.WrapAnywhere
+                wrapMode: Text.WordWrap
                 text:message
                 width: parent.width
                 topPadding: 4
@@ -67,7 +67,7 @@ FluPopup {
                 topPadding: 20
                 leftPadding: 20
                 rightPadding: 20
-                wrapMode: Text.WrapAnywhere
+                wrapMode: Text.WordWrap
             }
             FluLoader{
                 sourceComponent: com_message
@@ -75,9 +75,15 @@ FluPopup {
                 Layout.preferredHeight: status===Loader.Ready ? item.height : 0
             }
             FluLoader{
-                sourceComponent: control.contentDelegate
+                sourceComponent:control.visible ? control.contentDelegate : undefined
                 Layout.fillWidth: true
-                Layout.preferredHeight: status===Loader.Ready ? item.height : 0
+                onStatusChanged: {
+                    if(status===Loader.Ready){
+                        Layout.preferredHeight = item.implicitHeight
+                    }else{
+                        Layout.preferredHeight = 0
+                    }
+                }
             }
             Rectangle{
                 id:layout_actions
@@ -96,9 +102,9 @@ FluPopup {
                     Item{
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        visible: control.buttonFlags&FluContentDialogType.NeutralButton
                         FluButton{
                             id:neutral_btn
+                            visible: control.buttonFlags&FluContentDialogType.NeutralButton
                             text: neutralText
                             width: parent.width
                             anchors.centerIn: parent
@@ -115,9 +121,9 @@ FluPopup {
                     Item{
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        visible: control.buttonFlags&FluContentDialogType.NegativeButton
                         FluButton{
                             id:negative_btn
+                            visible: control.buttonFlags&FluContentDialogType.NegativeButton
                             width: parent.width
                             anchors.centerIn: parent
                             text: negativeText
@@ -134,9 +140,9 @@ FluPopup {
                     Item{
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        visible: control.buttonFlags&FluContentDialogType.PositiveButton
                         FluFilledButton{
                             id:positive_btn
+                            visible: control.buttonFlags&FluContentDialogType.PositiveButton
                             text: positiveText
                             width: parent.width
                             anchors.centerIn: parent

@@ -26,7 +26,7 @@ TextField{
     }
     font:FluTextStyle.Body
     renderType: FluTheme.nativeText ? Text.NativeRendering : Text.QtRendering
-    selectionColor: FluTools.colorAlpha(FluTheme.primaryColor,0.5)
+    selectionColor: FluTools.withOpacity(FluTheme.primaryColor,0.5)
     selectedTextColor: color
     placeholderTextColor: {
         if(!enabled){
@@ -63,8 +63,15 @@ TextField{
         anchors.fill: parent
         cursorShape: Qt.IBeamCursor
         acceptedButtons: Qt.RightButton
-        visible: !readOnly
-        onClicked: control.echoMode !== TextInput.Password && menu.popup()
+        onClicked: {
+            if(control.echoMode === TextInput.Password){
+                return
+            }
+            if(control.readOnly && control.text === ""){
+                return
+            }
+            menu_loader.popup()
+        }
     }
     RowLayout{
         height: parent.height
@@ -92,7 +99,7 @@ TextField{
             }
             contentDescription:"Clean"
             onClicked:{
-                control.text = ""
+                control.clear()
             }
         }
         FluIcon{
@@ -105,8 +112,22 @@ TextField{
             visible: control.iconSource != 0
         }
     }
-    FluTextBoxMenu{
+    FluLoader{
+        id: menu_loader
+        function popup(){
+            sourceComponent = menu
+        }
+    }
+    Component{
         id:menu
-        inputItem: control
+        FluTextBoxMenu{
+            inputItem: control
+            Component.onCompleted: {
+                popup()
+            }
+            onClosed: {
+                menu_loader.sourceComponent = undefined
+            }
+        }
     }
 }

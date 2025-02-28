@@ -21,12 +21,12 @@ TextArea{
         return normalColor
     }
     font:FluTextStyle.Body
-    wrapMode: Text.WrapAnywhere
+    wrapMode: Text.WordWrap
     padding: 8
     leftPadding: padding+4
     renderType: FluTheme.nativeText ? Text.NativeRendering : Text.QtRendering
     selectedTextColor: color
-    selectionColor: FluTools.colorAlpha(FluTheme.primaryColor,0.5)
+    selectionColor: FluTools.withOpacity(FluTheme.primaryColor,0.5)
     placeholderTextColor: {
         if(!enabled){
             return placeholderDisableColor
@@ -65,11 +65,32 @@ TextArea{
         anchors.fill: parent
         cursorShape: Qt.IBeamCursor
         acceptedButtons: Qt.RightButton
-        visible: !readOnly
-        onClicked: control.echoMode !== TextInput.Password && menu.popup()
+        onClicked: {
+            if(control.echoMode === TextInput.Password){
+                return
+            }
+            if(control.readOnly && control.text === ""){
+                return
+            }
+            menu_loader.popup()
+        }
     }
-    FluTextBoxMenu{
+    FluLoader{
+        id: menu_loader
+        function popup(){
+            sourceComponent = menu
+        }
+    }
+    Component{
         id:menu
-        inputItem: control
+        FluTextBoxMenu{
+            inputItem: control
+            Component.onCompleted: {
+                popup()
+            }
+            onClosed: {
+                menu_loader.sourceComponent = undefined
+            }
+        }
     }
 }

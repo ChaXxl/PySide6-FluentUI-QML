@@ -7,6 +7,28 @@ import QtQuick.tooling 1.2
 
 Module {
     Component {
+        file: "FluAccentColor.h"
+        name: "FluAccentColor"
+        accessSemantics: "reference"
+        prototype: "QObject"
+        exports: ["FluentUI/FluAccentColor 1.0"]
+        exportMetaObjectRevisions: [256]
+        Property { name: "darkest"; type: "QColor"; notify: "darkestChanged"; index: 0 }
+        Property { name: "darker"; type: "QColor"; notify: "darkerChanged"; index: 1 }
+        Property { name: "dark"; type: "QColor"; notify: "darkChanged"; index: 2 }
+        Property { name: "normal"; type: "QColor"; notify: "normalChanged"; index: 3 }
+        Property { name: "light"; type: "QColor"; notify: "lightChanged"; index: 4 }
+        Property { name: "lighter"; type: "QColor"; notify: "lighterChanged"; index: 5 }
+        Property { name: "lightest"; type: "QColor"; notify: "lightestChanged"; index: 6 }
+        Signal { name: "darkestChanged" }
+        Signal { name: "darkerChanged" }
+        Signal { name: "darkChanged" }
+        Signal { name: "normalChanged" }
+        Signal { name: "lightChanged" }
+        Signal { name: "lighterChanged" }
+        Signal { name: "lightestChanged" }
+    }
+    Component {
         file: "FluApp.h"
         name: "FluApp"
         accessSemantics: "reference"
@@ -15,43 +37,30 @@ Module {
         isCreatable: false
         isSingleton: true
         exportMetaObjectRevisions: [256]
-        Property { name: "vsync"; type: "bool"; notify: "vsyncChanged"; index: 0 }
-        Property { name: "initialRoute"; type: "QString"; notify: "initialRouteChanged"; index: 1 }
-        Property { name: "routes"; type: "QJsonObject"; notify: "routesChanged"; index: 2 }
-        Property { name: "useSystemAppBar"; type: "bool"; notify: "useSystemAppBarChanged"; index: 3 }
-        Property { name: "windowIcon"; type: "QString"; notify: "windowIconChanged"; index: 4 }
-        Signal { name: "vsyncChanged" }
-        Signal { name: "initialRouteChanged" }
-        Signal { name: "routesChanged" }
+        Property { name: "useSystemAppBar"; type: "bool"; notify: "useSystemAppBarChanged"; index: 0 }
+        Property { name: "windowIcon"; type: "QString"; notify: "windowIconChanged"; index: 1 }
+        Property { name: "locale"; type: "QLocale"; notify: "localeChanged"; index: 2 }
+        Property { name: "launcher"; type: "QObject"; isPointer: true; notify: "launcherChanged"; index: 3 }
         Signal { name: "useSystemAppBarChanged" }
         Signal { name: "windowIconChanged" }
-        Method { name: "run" }
+        Signal { name: "localeChanged" }
+        Signal { name: "launcherChanged" }
         Method {
-            name: "navigate"
-            Parameter { name: "route"; type: "QString" }
-            Parameter { name: "argument"; type: "QJsonObject" }
-            Parameter { name: "fluRegister"; type: "FluRegister"; isPointer: true }
-        }
-        Method {
-            name: "navigate"
-            isCloned: true
-            Parameter { name: "route"; type: "QString" }
-            Parameter { name: "argument"; type: "QJsonObject" }
-        }
-        Method {
-            name: "navigate"
-            isCloned: true
-            Parameter { name: "route"; type: "QString" }
+            name: "init"
+            Parameter { name: "launcher"; type: "QObject"; isPointer: true }
+            Parameter { name: "locale"; type: "QLocale" }
         }
         Method {
             name: "init"
-            Parameter { name: "window"; type: "QObject"; isPointer: true }
+            isCloned: true
+            Parameter { name: "launcher"; type: "QObject"; isPointer: true }
         }
         Method {
-            name: "exit"
-            Parameter { name: "retCode"; type: "int" }
+            name: "iconData"
+            type: "QJsonArray"
+            Parameter { name: "keyword"; type: "QString" }
         }
-        Method { name: "exit"; isCloned: true }
+        Method { name: "iconData"; type: "QJsonArray"; isCloned: true }
     }
     Component {
         file: "Def.h"
@@ -84,28 +93,6 @@ Module {
         }
     }
     Component {
-        file: "FluColorSet.h"
-        name: "FluColorSet"
-        accessSemantics: "reference"
-        prototype: "QObject"
-        exports: ["FluentUI/FluColorSet 1.0"]
-        exportMetaObjectRevisions: [256]
-        Property { name: "darkest"; type: "QString"; notify: "darkestChanged"; index: 0 }
-        Property { name: "darker"; type: "QString"; notify: "darkerChanged"; index: 1 }
-        Property { name: "dark"; type: "QString"; notify: "darkChanged"; index: 2 }
-        Property { name: "normal"; type: "QString"; notify: "normalChanged"; index: 3 }
-        Property { name: "light"; type: "QString"; notify: "lightChanged"; index: 4 }
-        Property { name: "lighter"; type: "QString"; notify: "lighterChanged"; index: 5 }
-        Property { name: "lightest"; type: "QString"; notify: "lightestChanged"; index: 6 }
-        Signal { name: "darkestChanged" }
-        Signal { name: "darkerChanged" }
-        Signal { name: "darkChanged" }
-        Signal { name: "normalChanged" }
-        Signal { name: "lightChanged" }
-        Signal { name: "lighterChanged" }
-        Signal { name: "lightestChanged" }
-    }
-    Component {
         file: "FluColors.h"
         name: "FluColors"
         accessSemantics: "reference"
@@ -114,63 +101,69 @@ Module {
         isCreatable: false
         isSingleton: true
         exportMetaObjectRevisions: [256]
-        Property { name: "Transparent"; type: "QString"; notify: "TransparentChanged"; index: 0 }
-        Property { name: "Black"; type: "QString"; notify: "BlackChanged"; index: 1 }
-        Property { name: "White"; type: "QString"; notify: "WhiteChanged"; index: 2 }
-        Property { name: "Grey10"; type: "QString"; notify: "Grey10Changed"; index: 3 }
-        Property { name: "Grey20"; type: "QString"; notify: "Grey20Changed"; index: 4 }
-        Property { name: "Grey30"; type: "QString"; notify: "Grey30Changed"; index: 5 }
-        Property { name: "Grey40"; type: "QString"; notify: "Grey40Changed"; index: 6 }
-        Property { name: "Grey50"; type: "QString"; notify: "Grey50Changed"; index: 7 }
-        Property { name: "Grey60"; type: "QString"; notify: "Grey60Changed"; index: 8 }
-        Property { name: "Grey70"; type: "QString"; notify: "Grey70Changed"; index: 9 }
-        Property { name: "Grey80"; type: "QString"; notify: "Grey80Changed"; index: 10 }
-        Property { name: "Grey90"; type: "QString"; notify: "Grey90Changed"; index: 11 }
-        Property { name: "Grey100"; type: "QString"; notify: "Grey100Changed"; index: 12 }
-        Property { name: "Grey110"; type: "QString"; notify: "Grey110Changed"; index: 13 }
-        Property { name: "Grey120"; type: "QString"; notify: "Grey120Changed"; index: 14 }
-        Property { name: "Grey130"; type: "QString"; notify: "Grey130Changed"; index: 15 }
-        Property { name: "Grey140"; type: "QString"; notify: "Grey140Changed"; index: 16 }
-        Property { name: "Grey150"; type: "QString"; notify: "Grey150Changed"; index: 17 }
-        Property { name: "Grey160"; type: "QString"; notify: "Grey160Changed"; index: 18 }
-        Property { name: "Grey170"; type: "QString"; notify: "Grey170Changed"; index: 19 }
-        Property { name: "Grey180"; type: "QString"; notify: "Grey180Changed"; index: 20 }
-        Property { name: "Grey190"; type: "QString"; notify: "Grey190Changed"; index: 21 }
-        Property { name: "Grey200"; type: "QString"; notify: "Grey200Changed"; index: 22 }
-        Property { name: "Grey210"; type: "QString"; notify: "Grey210Changed"; index: 23 }
-        Property { name: "Grey220"; type: "QString"; notify: "Grey220Changed"; index: 24 }
+        Property { name: "Transparent"; type: "QColor"; notify: "TransparentChanged"; index: 0 }
+        Property { name: "Black"; type: "QColor"; notify: "BlackChanged"; index: 1 }
+        Property { name: "White"; type: "QColor"; notify: "WhiteChanged"; index: 2 }
+        Property { name: "Grey10"; type: "QColor"; notify: "Grey10Changed"; index: 3 }
+        Property { name: "Grey20"; type: "QColor"; notify: "Grey20Changed"; index: 4 }
+        Property { name: "Grey30"; type: "QColor"; notify: "Grey30Changed"; index: 5 }
+        Property { name: "Grey40"; type: "QColor"; notify: "Grey40Changed"; index: 6 }
+        Property { name: "Grey50"; type: "QColor"; notify: "Grey50Changed"; index: 7 }
+        Property { name: "Grey60"; type: "QColor"; notify: "Grey60Changed"; index: 8 }
+        Property { name: "Grey70"; type: "QColor"; notify: "Grey70Changed"; index: 9 }
+        Property { name: "Grey80"; type: "QColor"; notify: "Grey80Changed"; index: 10 }
+        Property { name: "Grey90"; type: "QColor"; notify: "Grey90Changed"; index: 11 }
+        Property { name: "Grey100"; type: "QColor"; notify: "Grey100Changed"; index: 12 }
+        Property { name: "Grey110"; type: "QColor"; notify: "Grey110Changed"; index: 13 }
+        Property { name: "Grey120"; type: "QColor"; notify: "Grey120Changed"; index: 14 }
+        Property { name: "Grey130"; type: "QColor"; notify: "Grey130Changed"; index: 15 }
+        Property { name: "Grey140"; type: "QColor"; notify: "Grey140Changed"; index: 16 }
+        Property { name: "Grey150"; type: "QColor"; notify: "Grey150Changed"; index: 17 }
+        Property { name: "Grey160"; type: "QColor"; notify: "Grey160Changed"; index: 18 }
+        Property { name: "Grey170"; type: "QColor"; notify: "Grey170Changed"; index: 19 }
+        Property { name: "Grey180"; type: "QColor"; notify: "Grey180Changed"; index: 20 }
+        Property { name: "Grey190"; type: "QColor"; notify: "Grey190Changed"; index: 21 }
+        Property { name: "Grey200"; type: "QColor"; notify: "Grey200Changed"; index: 22 }
+        Property { name: "Grey210"; type: "QColor"; notify: "Grey210Changed"; index: 23 }
+        Property { name: "Grey220"; type: "QColor"; notify: "Grey220Changed"; index: 24 }
         Property {
             name: "Yellow"
-            type: "FluColorSet"
+            type: "FluAccentColor"
             isPointer: true
             notify: "YellowChanged"
             index: 25
         }
         Property {
             name: "Orange"
-            type: "FluColorSet"
+            type: "FluAccentColor"
             isPointer: true
             notify: "OrangeChanged"
             index: 26
         }
-        Property { name: "Red"; type: "FluColorSet"; isPointer: true; notify: "RedChanged"; index: 27 }
+        Property { name: "Red"; type: "FluAccentColor"; isPointer: true; notify: "RedChanged"; index: 27 }
         Property {
             name: "Magenta"
-            type: "FluColorSet"
+            type: "FluAccentColor"
             isPointer: true
             notify: "MagentaChanged"
             index: 28
         }
         Property {
             name: "Purple"
-            type: "FluColorSet"
+            type: "FluAccentColor"
             isPointer: true
             notify: "PurpleChanged"
             index: 29
         }
-        Property { name: "Blue"; type: "FluColorSet"; isPointer: true; notify: "BlueChanged"; index: 30 }
-        Property { name: "Teal"; type: "FluColorSet"; isPointer: true; notify: "TealChanged"; index: 31 }
-        Property { name: "Green"; type: "FluColorSet"; isPointer: true; notify: "GreenChanged"; index: 32 }
+        Property { name: "Blue"; type: "FluAccentColor"; isPointer: true; notify: "BlueChanged"; index: 30 }
+        Property { name: "Teal"; type: "FluAccentColor"; isPointer: true; notify: "TealChanged"; index: 31 }
+        Property {
+            name: "Green"
+            type: "FluAccentColor"
+            isPointer: true
+            notify: "GreenChanged"
+            index: 32
+        }
         Signal { name: "TransparentChanged" }
         Signal { name: "BlackChanged" }
         Signal { name: "WhiteChanged" }
@@ -204,6 +197,12 @@ Module {
         Signal { name: "BlueChanged" }
         Signal { name: "TealChanged" }
         Signal { name: "GreenChanged" }
+        Method {
+            name: "createAccentColor"
+            type: "FluAccentColor"
+            isPointer: true
+            Parameter { name: "primaryColor"; type: "QColor" }
+        }
     }
     Component {
         file: "Def.h"
@@ -218,58 +217,104 @@ Module {
         }
     }
     Component {
-        file: "FluEventBus.h"
-        name: "FluEvent"
+        file: "FluFrameless.h"
+        name: "FluFrameless"
+        accessSemantics: "reference"
+        defaultProperty: "data"
+        parentProperty: "parent"
+        prototype: "QQuickItem"
+        exports: ["FluentUI/FluFrameless 1.0"]
+        exportMetaObjectRevisions: [256]
+        Property { name: "appbar"; type: "QQuickItem"; isPointer: true; notify: "appbarChanged"; index: 0 }
+        Property {
+            name: "maximizeButton"
+            type: "QQuickItem"
+            isPointer: true
+            notify: "maximizeButtonChanged"
+            index: 1
+        }
+        Property {
+            name: "minimizedButton"
+            type: "QQuickItem"
+            isPointer: true
+            notify: "minimizedButtonChanged"
+            index: 2
+        }
+        Property {
+            name: "closeButton"
+            type: "QQuickItem"
+            isPointer: true
+            notify: "closeButtonChanged"
+            index: 3
+        }
+        Property { name: "topmost"; type: "bool"; notify: "topmostChanged"; index: 4 }
+        Property { name: "disabled"; type: "bool"; notify: "disabledChanged"; index: 5 }
+        Property { name: "fixSize"; type: "bool"; notify: "fixSizeChanged"; index: 6 }
+        Property { name: "effect"; type: "QString"; notify: "effectChanged"; index: 7 }
+        Property {
+            name: "effective"
+            type: "bool"
+            read: "effective"
+            notify: "effectiveChanged"
+            index: 8
+            isReadonly: true
+            isFinal: true
+        }
+        Property {
+            name: "availableEffects"
+            type: "QStringList"
+            read: "availableEffects"
+            notify: "availableEffectsChanged"
+            index: 9
+            isReadonly: true
+            isFinal: true
+        }
+        Property { name: "isDarkMode"; type: "bool"; notify: "isDarkModeChanged"; index: 10 }
+        Property { name: "useSystemEffect"; type: "bool"; notify: "useSystemEffectChanged"; index: 11 }
+        Signal { name: "appbarChanged" }
+        Signal { name: "maximizeButtonChanged" }
+        Signal { name: "minimizedButtonChanged" }
+        Signal { name: "closeButtonChanged" }
+        Signal { name: "topmostChanged" }
+        Signal { name: "disabledChanged" }
+        Signal { name: "fixSizeChanged" }
+        Signal { name: "effectChanged" }
+        Signal { name: "effectiveChanged" }
+        Signal { name: "availableEffectsChanged" }
+        Signal { name: "isDarkModeChanged" }
+        Signal { name: "useSystemEffectChanged" }
+        Method { name: "showFullScreen" }
+        Method { name: "showMaximized" }
+        Method { name: "showMinimized" }
+        Method { name: "showNormal" }
+        Method {
+            name: "setHitTestVisible"
+            Parameter { type: "QQuickItem"; isPointer: true }
+        }
+        Method { name: "onDestruction" }
+    }
+    Component {
+        file: "FluHotkey.h"
+        name: "FluHotkey"
         accessSemantics: "reference"
         prototype: "QObject"
-        exports: ["FluentUI/FluEvent 1.0"]
+        exports: ["FluentUI/FluHotkey 1.0"]
         exportMetaObjectRevisions: [256]
-        Property { name: "name"; type: "QString"; notify: "nameChanged"; index: 0 }
+        Property { name: "sequence"; type: "QString"; notify: "sequenceChanged"; index: 0 }
+        Property { name: "name"; type: "QString"; notify: "nameChanged"; index: 1 }
+        Property {
+            name: "isRegistered"
+            type: "bool"
+            read: "isRegistered"
+            notify: "isRegisteredChanged"
+            index: 2
+            isReadonly: true
+            isFinal: true
+        }
+        Signal { name: "sequenceChanged" }
         Signal { name: "nameChanged" }
-        Signal {
-            name: "triggered"
-            Parameter { name: "data"; type: "QMap<QString,QVariant>" }
-        }
-    }
-    Component {
-        file: "FluEventBus.h"
-        name: "FluEventBus"
-        accessSemantics: "reference"
-        prototype: "QObject"
-        exports: ["FluentUI/FluEventBus 1.0"]
-        isCreatable: false
-        isSingleton: true
-        exportMetaObjectRevisions: [256]
-        Method {
-            name: "registerEvent"
-            Parameter { name: "event"; type: "FluEvent"; isPointer: true }
-        }
-        Method {
-            name: "unRegisterEvent"
-            Parameter { name: "event"; type: "FluEvent"; isPointer: true }
-        }
-        Method {
-            name: "post"
-            Parameter { name: "name"; type: "QString" }
-            Parameter { name: "params"; type: "QMap<QString,QVariant>" }
-        }
-        Method {
-            name: "post"
-            isCloned: true
-            Parameter { name: "name"; type: "QString" }
-        }
-    }
-    Component {
-        file: "FluFramelessHelper.h"
-        name: "FluFramelessHelper"
-        accessSemantics: "reference"
-        prototype: "QObject"
-        exports: ["FluentUI/FluFramelessHelper 1.0"]
-        exportMetaObjectRevisions: [256]
-        Signal { name: "loadCompleted" }
-        Method { name: "_onStayTopChange" }
-        Method { name: "_onScreenChanged" }
-        Method { name: "showSystemMenu" }
+        Signal { name: "isRegisteredChanged" }
+        Signal { name: "activated" }
     }
     Component {
         file: "Def.h"
@@ -288,153 +333,6 @@ Module {
         }
     }
     Component {
-        file: "FluNetwork.h"
-        name: "FluNetwork"
-        accessSemantics: "reference"
-        prototype: "QObject"
-        exports: ["FluentUI/FluNetwork 1.0"]
-        isCreatable: false
-        isSingleton: true
-        exportMetaObjectRevisions: [256]
-        Property { name: "timeout"; type: "int"; notify: "timeoutChanged"; index: 0 }
-        Property { name: "retry"; type: "int"; notify: "retryChanged"; index: 1 }
-        Property { name: "cacheDir"; type: "QString"; notify: "cacheDirChanged"; index: 2 }
-        Property { name: "openLog"; type: "bool"; notify: "openLogChanged"; index: 3 }
-        Signal { name: "timeoutChanged" }
-        Signal { name: "retryChanged" }
-        Signal { name: "cacheDirChanged" }
-        Signal { name: "openLogChanged" }
-        Method {
-            name: "get"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "head"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "postBody"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "putBody"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "patchBody"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "deleteBody"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "postForm"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "putForm"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "patchForm"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "deleteForm"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "postJson"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "putJson"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "patchJson"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "deleteJson"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "postJsonArray"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "putJsonArray"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "patchJsonArray"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "deleteJsonArray"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "url"; type: "QString" }
-        }
-        Method {
-            name: "setInterceptor"
-            Parameter { name: "interceptor"; type: "QJSValue" }
-        }
-    }
-    Component {
-        file: "Def.h"
-        name: "FluNetworkType"
-        accessSemantics: "none"
-        exports: ["FluentUI/FluNetworkType 1.0"]
-        isCreatable: false
-        exportMetaObjectRevisions: [256]
-        Enum {
-            name: "CacheMode"
-            values: [
-                "NoCache",
-                "RequestFailedReadCache",
-                "IfNoneCacheRequest",
-                "FirstCacheThenRequest"
-            ]
-        }
-    }
-    Component {
         file: "Def.h"
         name: "FluPageType"
         accessSemantics: "none"
@@ -445,6 +343,22 @@ Module {
             name: "LaunchMode"
             values: ["Standard", "SingleTask", "SingleTop", "SingleInstance"]
         }
+    }
+    Component {
+        file: "FluQrCodeItem.h"
+        name: "FluQrCodeItem"
+        accessSemantics: "reference"
+        prototype: "QQuickPaintedItem"
+        exports: ["FluentUI/FluQrCodeItem 1.0"]
+        exportMetaObjectRevisions: [256]
+        Property { name: "text"; type: "QString"; notify: "textChanged"; index: 0 }
+        Property { name: "color"; type: "QColor"; notify: "colorChanged"; index: 1 }
+        Property { name: "bgColor"; type: "QColor"; notify: "bgColorChanged"; index: 2 }
+        Property { name: "size"; type: "int"; notify: "sizeChanged"; index: 3 }
+        Signal { name: "textChanged" }
+        Signal { name: "colorChanged" }
+        Signal { name: "bgColorChanged" }
+        Signal { name: "sizeChanged" }
     }
     Component {
         file: "FluRectangle.h"
@@ -460,21 +374,21 @@ Module {
     }
     Component {
         file: "Def.h"
-        name: "FluScreenshotType"
+        name: "FluSheetType"
         accessSemantics: "none"
-        exports: ["FluentUI/FluScreenshotType 1.0"]
+        exports: ["FluentUI/FluSheetType 1.0"]
         isCreatable: false
         exportMetaObjectRevisions: [256]
         Enum {
-            name: "CaptrueMode"
-            values: ["Pixmap", "File"]
+            name: "Position"
+            values: ["Left", "Top", "Right", "Bottom"]
         }
     }
     Component {
         file: "Def.h"
-        name: "FluStatusViewType"
+        name: "FluStatusLayoutType"
         accessSemantics: "none"
-        exports: ["FluentUI/FluStatusViewType 1.0"]
+        exports: ["FluentUI/FluStatusLayoutType 1.0"]
         isCreatable: false
         exportMetaObjectRevisions: [256]
         Enum {
@@ -499,6 +413,100 @@ Module {
         }
     }
     Component {
+        file: "FluTableModel.h"
+        name: "FluTableModel"
+        accessSemantics: "reference"
+        prototype: "QAbstractTableModel"
+        exports: ["FluentUI/FluTableModel 1.0"]
+        exportMetaObjectRevisions: [256]
+        Property {
+            name: "columnSource"
+            type: "QVariantMap"
+            isList: true
+            notify: "columnSourceChanged"
+            index: 0
+        }
+        Property { name: "rows"; type: "QVariantMap"; isList: true; notify: "rowsChanged"; index: 1 }
+        Property {
+            name: "rowCount"
+            type: "int"
+            read: "rowCount"
+            index: 2
+            isReadonly: true
+            isConstant: true
+        }
+        Signal { name: "columnSourceChanged" }
+        Signal { name: "rowsChanged" }
+        Method { name: "clear" }
+        Method {
+            name: "getRow"
+            type: "QVariant"
+            Parameter { name: "rowIndex"; type: "int" }
+        }
+        Method {
+            name: "setRow"
+            Parameter { name: "rowIndex"; type: "int" }
+            Parameter { name: "row"; type: "QVariant" }
+        }
+        Method {
+            name: "insertRow"
+            Parameter { name: "rowIndex"; type: "int" }
+            Parameter { name: "row"; type: "QVariant" }
+        }
+        Method {
+            name: "removeRow"
+            Parameter { name: "rowIndex"; type: "int" }
+            Parameter { name: "rows"; type: "int" }
+        }
+        Method {
+            name: "removeRow"
+            isCloned: true
+            Parameter { name: "rowIndex"; type: "int" }
+        }
+        Method {
+            name: "appendRow"
+            Parameter { name: "row"; type: "QVariant" }
+        }
+    }
+    Component {
+        file: "FluTableSortProxyModel.h"
+        name: "FluTableSortProxyModel"
+        accessSemantics: "reference"
+        prototype: "QSortFilterProxyModel"
+        exports: ["FluentUI/FluTableSortProxyModel 1.0"]
+        exportMetaObjectRevisions: [256]
+        Property { name: "model"; type: "QVariant"; notify: "modelChanged"; index: 0 }
+        Signal { name: "modelChanged" }
+        Method {
+            name: "getRow"
+            type: "QVariant"
+            Parameter { name: "rowIndex"; type: "int" }
+        }
+        Method {
+            name: "setRow"
+            Parameter { name: "rowIndex"; type: "int" }
+            Parameter { name: "val"; type: "QVariant" }
+        }
+        Method {
+            name: "insertRow"
+            Parameter { name: "rowIndex"; type: "int" }
+            Parameter { name: "val"; type: "QVariant" }
+        }
+        Method {
+            name: "removeRow"
+            Parameter { name: "rowIndex"; type: "int" }
+            Parameter { name: "rows"; type: "int" }
+        }
+        Method {
+            name: "setComparator"
+            Parameter { name: "comparator"; type: "QJSValue" }
+        }
+        Method {
+            name: "setFilter"
+            Parameter { name: "filter"; type: "QJSValue" }
+        }
+    }
+    Component {
         file: "FluTextStyle.h"
         name: "FluTextStyle"
         accessSemantics: "reference"
@@ -507,13 +515,15 @@ Module {
         isCreatable: false
         isSingleton: true
         exportMetaObjectRevisions: [256]
-        Property { name: "Caption"; type: "QFont"; notify: "CaptionChanged"; index: 0 }
-        Property { name: "Body"; type: "QFont"; notify: "BodyChanged"; index: 1 }
-        Property { name: "BodyStrong"; type: "QFont"; notify: "BodyStrongChanged"; index: 2 }
-        Property { name: "Subtitle"; type: "QFont"; notify: "SubtitleChanged"; index: 3 }
-        Property { name: "Title"; type: "QFont"; notify: "TitleChanged"; index: 4 }
-        Property { name: "TitleLarge"; type: "QFont"; notify: "TitleLargeChanged"; index: 5 }
-        Property { name: "Display"; type: "QFont"; notify: "DisplayChanged"; index: 6 }
+        Property { name: "family"; type: "QString"; notify: "familyChanged"; index: 0 }
+        Property { name: "Caption"; type: "QFont"; notify: "CaptionChanged"; index: 1 }
+        Property { name: "Body"; type: "QFont"; notify: "BodyChanged"; index: 2 }
+        Property { name: "BodyStrong"; type: "QFont"; notify: "BodyStrongChanged"; index: 3 }
+        Property { name: "Subtitle"; type: "QFont"; notify: "SubtitleChanged"; index: 4 }
+        Property { name: "Title"; type: "QFont"; notify: "TitleChanged"; index: 5 }
+        Property { name: "TitleLarge"; type: "QFont"; notify: "TitleLargeChanged"; index: 6 }
+        Property { name: "Display"; type: "QFont"; notify: "DisplayChanged"; index: 7 }
+        Signal { name: "familyChanged" }
         Signal { name: "CaptionChanged" }
         Signal { name: "BodyChanged" }
         Signal { name: "BodyStrongChanged" }
@@ -540,68 +550,87 @@ Module {
             isReadonly: true
         }
         Property {
-            name: "themeColor"
-            type: "FluColorSet"
+            name: "accentColor"
+            type: "FluAccentColor"
             isPointer: true
-            notify: "themeColorChanged"
+            notify: "accentColorChanged"
             index: 1
         }
         Property { name: "primaryColor"; type: "QColor"; notify: "primaryColorChanged"; index: 2 }
         Property { name: "backgroundColor"; type: "QColor"; notify: "backgroundColorChanged"; index: 3 }
+        Property { name: "dividerColor"; type: "QColor"; notify: "dividerColorChanged"; index: 4 }
         Property {
             name: "windowBackgroundColor"
             type: "QColor"
             notify: "windowBackgroundColorChanged"
-            index: 4
+            index: 5
         }
         Property {
             name: "windowActiveBackgroundColor"
             type: "QColor"
             notify: "windowActiveBackgroundColorChanged"
-            index: 5
+            index: 6
         }
-        Property { name: "fontPrimaryColor"; type: "QColor"; notify: "fontPrimaryColorChanged"; index: 6 }
+        Property { name: "fontPrimaryColor"; type: "QColor"; notify: "fontPrimaryColorChanged"; index: 7 }
         Property {
             name: "fontSecondaryColor"
             type: "QColor"
             notify: "fontSecondaryColorChanged"
-            index: 7
+            index: 8
         }
         Property {
             name: "fontTertiaryColor"
             type: "QColor"
             notify: "fontTertiaryColorChanged"
-            index: 8
+            index: 9
         }
-        Property { name: "itemNormalColor"; type: "QColor"; notify: "itemNormalColorChanged"; index: 9 }
-        Property { name: "itemHoverColor"; type: "QColor"; notify: "itemHoverColorChanged"; index: 10 }
-        Property { name: "itemPressColor"; type: "QColor"; notify: "itemPressColorChanged"; index: 11 }
-        Property { name: "itemCheckColor"; type: "QColor"; notify: "itemCheckColorChanged"; index: 12 }
-        Property { name: "darkMode"; type: "int"; notify: "darkModeChanged"; index: 13 }
-        Property { name: "nativeText"; type: "bool"; notify: "nativeTextChanged"; index: 14 }
-        Property { name: "enableAnimation"; type: "bool"; notify: "enableAnimationChanged"; index: 15 }
-        Signal { name: "themeColorChanged" }
+        Property { name: "itemNormalColor"; type: "QColor"; notify: "itemNormalColorChanged"; index: 10 }
+        Property { name: "frameColor"; type: "QColor"; notify: "frameColorChanged"; index: 11 }
+        Property {
+            name: "frameActiveColor"
+            type: "QColor"
+            notify: "frameActiveColorChanged"
+            index: 12
+        }
+        Property { name: "itemHoverColor"; type: "QColor"; notify: "itemHoverColorChanged"; index: 13 }
+        Property { name: "itemPressColor"; type: "QColor"; notify: "itemPressColorChanged"; index: 14 }
+        Property { name: "itemCheckColor"; type: "QColor"; notify: "itemCheckColorChanged"; index: 15 }
+        Property {
+            name: "desktopImagePath"
+            type: "QString"
+            notify: "desktopImagePathChanged"
+            index: 16
+        }
+        Property { name: "darkMode"; type: "int"; notify: "darkModeChanged"; index: 17 }
+        Property { name: "nativeText"; type: "bool"; notify: "nativeTextChanged"; index: 18 }
+        Property { name: "animationEnabled"; type: "bool"; notify: "animationEnabledChanged"; index: 19 }
+        Property {
+            name: "blurBehindWindowEnabled"
+            type: "bool"
+            notify: "blurBehindWindowEnabledChanged"
+            index: 20
+        }
+        Signal { name: "accentColorChanged" }
         Signal { name: "primaryColorChanged" }
         Signal { name: "backgroundColorChanged" }
+        Signal { name: "dividerColorChanged" }
         Signal { name: "windowBackgroundColorChanged" }
         Signal { name: "windowActiveBackgroundColorChanged" }
         Signal { name: "fontPrimaryColorChanged" }
         Signal { name: "fontSecondaryColorChanged" }
         Signal { name: "fontTertiaryColorChanged" }
         Signal { name: "itemNormalColorChanged" }
+        Signal { name: "frameColorChanged" }
+        Signal { name: "frameActiveColorChanged" }
         Signal { name: "itemHoverColorChanged" }
         Signal { name: "itemPressColorChanged" }
         Signal { name: "itemCheckColorChanged" }
+        Signal { name: "desktopImagePathChanged" }
         Signal { name: "darkModeChanged" }
         Signal { name: "nativeTextChanged" }
-        Signal { name: "enableAnimationChanged" }
+        Signal { name: "animationEnabledChanged" }
+        Signal { name: "blurBehindWindowEnabledChanged" }
         Signal { name: "darkChanged" }
-        Method {
-            name: "awesomeList"
-            type: "QJsonArray"
-            Parameter { name: "keyword"; type: "QString" }
-        }
-        Method { name: "awesomeList"; type: "QJsonArray"; isCloned: true }
     }
     Component {
         file: "Def.h"
@@ -683,7 +712,7 @@ Module {
             Parameter { name: "url"; type: "QUrl" }
         }
         Method {
-            name: "deleteItem"
+            name: "deleteLater"
             Parameter { name: "p"; type: "QObject"; isPointer: true }
         }
         Method {
@@ -699,7 +728,7 @@ Module {
             Parameter { name: "path"; type: "QString" }
         }
         Method {
-            name: "colorAlpha"
+            name: "withOpacity"
             type: "QColor"
             Parameter { type: "QColor" }
             Parameter { name: "alpha"; type: "double" }
@@ -747,27 +776,41 @@ Module {
         Method { name: "isWindows11OrGreater"; type: "bool" }
         Method { name: "isWindows10OrGreater"; type: "bool" }
         Method {
-            name: "getTaskBarHeight"
-            type: "int"
+            name: "desktopAvailableGeometry"
+            type: "QRect"
             Parameter { name: "window"; type: "QQuickWindow"; isPointer: true }
+        }
+        Method { name: "getWallpaperFilePath"; type: "QString" }
+        Method {
+            name: "imageMainColor"
+            type: "QColor"
+            Parameter { name: "image"; type: "QImage" }
+            Parameter { name: "bright"; type: "double" }
+        }
+        Method {
+            name: "imageMainColor"
+            type: "QColor"
+            isCloned: true
+            Parameter { name: "image"; type: "QImage" }
         }
     }
     Component {
         file: "FluTreeModel.h"
         name: "FluTreeModel"
         accessSemantics: "reference"
-        prototype: "QAbstractItemModel"
-        exports: ["FluentUI/FluTreeModel 1.1", "FluentUI/FluTreeModel 1.0"]
-        exportMetaObjectRevisions: [65281, 256]
+        prototype: "QAbstractTableModel"
+        exports: ["FluentUI/FluTreeModel 1.0"]
+        exportMetaObjectRevisions: [256]
         Property { name: "dataSourceSize"; type: "int"; notify: "dataSourceSizeChanged"; index: 0 }
         Property {
-            name: "selectionModel"
-            type: "QList<Node*>"
-            notify: "selectionModelChanged"
+            name: "columnSource"
+            type: "QVariantMap"
+            isList: true
+            notify: "columnSourceChanged"
             index: 1
         }
         Signal { name: "dataSourceSizeChanged" }
-        Signal { name: "selectionModelChanged" }
+        Signal { name: "columnSourceChanged" }
         Method {
             name: "removeRows"
             Parameter { name: "row"; type: "int" }
@@ -776,7 +819,7 @@ Module {
         Method {
             name: "insertRows"
             Parameter { name: "row"; type: "int" }
-            Parameter { name: "data"; type: "QList<Node*>" }
+            Parameter { name: "data"; type: "QList<FluTreeNode*>" }
         }
         Method {
             name: "getRow"
@@ -785,8 +828,13 @@ Module {
             Parameter { name: "row"; type: "int" }
         }
         Method {
+            name: "setRow"
+            Parameter { name: "row"; type: "int" }
+            Parameter { name: "data"; type: "QVariantMap" }
+        }
+        Method {
             name: "setData"
-            Parameter { name: "data"; type: "QList<Node*>" }
+            Parameter { name: "data"; type: "QList<FluTreeNode*>" }
         }
         Method {
             name: "setDataSource"
@@ -801,14 +849,8 @@ Module {
             Parameter { name: "row"; type: "int" }
         }
         Method {
-            name: "dragAnddrop"
-            Parameter { name: "dragIndex"; type: "int" }
-            Parameter { name: "dropIndex"; type: "int" }
-            Parameter { name: "isDropTopArea"; type: "bool" }
-        }
-        Method {
             name: "getNode"
-            type: "Node"
+            type: "FluTreeNode"
             isPointer: true
             Parameter { name: "row"; type: "int" }
         }
@@ -819,7 +861,7 @@ Module {
         Method {
             name: "checkRow"
             Parameter { name: "row"; type: "int" }
-            Parameter { name: "chekced"; type: "bool" }
+            Parameter { name: "checked"; type: "bool" }
         }
         Method {
             name: "hitHasChildrenExpanded"
@@ -828,6 +870,7 @@ Module {
         }
         Method { name: "allExpand" }
         Method { name: "allCollapse" }
+        Method { name: "selectionModel"; type: "QVariant" }
     }
     Component {
         file: "Def.h"
@@ -839,30 +882,6 @@ Module {
         Enum {
             name: "SelectionMode"
             values: ["None", "Single", "Multiple"]
-        }
-    }
-    Component {
-        file: "FluViewModel.h"
-        name: "FluViewModel"
-        accessSemantics: "reference"
-        prototype: "QObject"
-        interfaces: ["QQmlParserStatus"]
-        exports: ["FluentUI/FluViewModel 1.0"]
-        exportMetaObjectRevisions: [256]
-        Property { name: "scope"; type: "int"; notify: "scopeChanged"; index: 0 }
-        Signal { name: "scopeChanged" }
-        Signal { name: "initData" }
-    }
-    Component {
-        file: "Def.h"
-        name: "FluViewModelType"
-        accessSemantics: "none"
-        exports: ["FluentUI/FluViewModelType 1.0"]
-        isCreatable: false
-        exportMetaObjectRevisions: [256]
-        Enum {
-            name: "Scope"
-            values: ["Window", "Application"]
         }
     }
     Component {
@@ -898,14 +917,15 @@ Module {
         }
     }
     Component {
-        file: "Def.h"
-        name: "Fluent_Awesome"
+        file: "FluentIconDef.h"
+        name: "FluentIcons"
         accessSemantics: "none"
         exports: ["FluentUI/FluentIcons 1.0"]
         isCreatable: false
         exportMetaObjectRevisions: [256]
         Enum {
-            name: "Fluent_AwesomeType"
+            name: "Type"
+            isScoped: true
             values: [
                 "GlobalNavButton",
                 "Wifi",
@@ -2314,206 +2334,663 @@ Module {
         }
     }
     Component {
-        file: "FluNetwork.h"
-        name: "NetworkCallable"
+        file: "qabstractproxymodel.h"
+        name: "QAbstractProxyModel"
+        accessSemantics: "reference"
+        prototype: "QAbstractItemModel"
+        Property {
+            name: "sourceModel"
+            type: "QAbstractItemModel"
+            isPointer: true
+            bindable: "bindableSourceModel"
+            read: "sourceModel"
+            write: "setSourceModel"
+            notify: "sourceModelChanged"
+            index: 0
+        }
+        Signal { name: "sourceModelChanged" }
+        Method { name: "_q_sourceModelDestroyed" }
+        Method {
+            name: "_q_sourceModelRowsAboutToBeInserted"
+            Parameter { type: "QModelIndex" }
+            Parameter { type: "int" }
+            Parameter { type: "int" }
+        }
+        Method {
+            name: "_q_sourceModelRowsInserted"
+            Parameter { type: "QModelIndex" }
+            Parameter { type: "int" }
+            Parameter { type: "int" }
+        }
+        Method {
+            name: "_q_sourceModelRowsRemoved"
+            Parameter { type: "QModelIndex" }
+            Parameter { type: "int" }
+            Parameter { type: "int" }
+        }
+        Method {
+            name: "_q_sourceModelColumnsAboutToBeInserted"
+            Parameter { type: "QModelIndex" }
+            Parameter { type: "int" }
+            Parameter { type: "int" }
+        }
+        Method {
+            name: "_q_sourceModelColumnsInserted"
+            Parameter { type: "QModelIndex" }
+            Parameter { type: "int" }
+            Parameter { type: "int" }
+        }
+        Method {
+            name: "_q_sourceModelColumnsRemoved"
+            Parameter { type: "QModelIndex" }
+            Parameter { type: "int" }
+            Parameter { type: "int" }
+        }
+        Method {
+            name: "mapToSource"
+            type: "QModelIndex"
+            Parameter { name: "proxyIndex"; type: "QModelIndex" }
+        }
+        Method {
+            name: "mapFromSource"
+            type: "QModelIndex"
+            Parameter { name: "sourceIndex"; type: "QModelIndex" }
+        }
+        Method {
+            name: "mapSelectionToSource"
+            type: "QItemSelection"
+            Parameter { name: "selection"; type: "QItemSelection" }
+        }
+        Method {
+            name: "mapSelectionFromSource"
+            type: "QItemSelection"
+            Parameter { name: "selection"; type: "QItemSelection" }
+        }
+    }
+    Component {
+        file: "qabstractitemmodel.h"
+        name: "QAbstractTableModel"
+        accessSemantics: "reference"
+        prototype: "QAbstractItemModel"
+    }
+    Component {
+        file: "qsortfilterproxymodel.h"
+        name: "QSortFilterProxyModel"
+        accessSemantics: "reference"
+        prototype: "QAbstractProxyModel"
+        Property {
+            name: "filterRegularExpression"
+            type: "QRegularExpression"
+            bindable: "bindableFilterRegularExpression"
+            read: "filterRegularExpression"
+            write: "setFilterRegularExpression"
+            index: 0
+        }
+        Property {
+            name: "filterKeyColumn"
+            type: "int"
+            bindable: "bindableFilterKeyColumn"
+            read: "filterKeyColumn"
+            write: "setFilterKeyColumn"
+            index: 1
+        }
+        Property {
+            name: "dynamicSortFilter"
+            type: "bool"
+            bindable: "bindableDynamicSortFilter"
+            read: "dynamicSortFilter"
+            write: "setDynamicSortFilter"
+            index: 2
+        }
+        Property {
+            name: "filterCaseSensitivity"
+            type: "Qt::CaseSensitivity"
+            bindable: "bindableFilterCaseSensitivity"
+            read: "filterCaseSensitivity"
+            write: "setFilterCaseSensitivity"
+            notify: "filterCaseSensitivityChanged"
+            index: 3
+        }
+        Property {
+            name: "sortCaseSensitivity"
+            type: "Qt::CaseSensitivity"
+            bindable: "bindableSortCaseSensitivity"
+            read: "sortCaseSensitivity"
+            write: "setSortCaseSensitivity"
+            notify: "sortCaseSensitivityChanged"
+            index: 4
+        }
+        Property {
+            name: "isSortLocaleAware"
+            type: "bool"
+            bindable: "bindableIsSortLocaleAware"
+            read: "isSortLocaleAware"
+            write: "setSortLocaleAware"
+            notify: "sortLocaleAwareChanged"
+            index: 5
+        }
+        Property {
+            name: "sortRole"
+            type: "int"
+            bindable: "bindableSortRole"
+            read: "sortRole"
+            write: "setSortRole"
+            notify: "sortRoleChanged"
+            index: 6
+        }
+        Property {
+            name: "filterRole"
+            type: "int"
+            bindable: "bindableFilterRole"
+            read: "filterRole"
+            write: "setFilterRole"
+            notify: "filterRoleChanged"
+            index: 7
+        }
+        Property {
+            name: "recursiveFilteringEnabled"
+            type: "bool"
+            bindable: "bindableRecursiveFilteringEnabled"
+            read: "isRecursiveFilteringEnabled"
+            write: "setRecursiveFilteringEnabled"
+            notify: "recursiveFilteringEnabledChanged"
+            index: 8
+        }
+        Property {
+            name: "autoAcceptChildRows"
+            type: "bool"
+            bindable: "bindableAutoAcceptChildRows"
+            read: "autoAcceptChildRows"
+            write: "setAutoAcceptChildRows"
+            notify: "autoAcceptChildRowsChanged"
+            index: 9
+        }
+        Signal {
+            name: "dynamicSortFilterChanged"
+            Parameter { name: "dynamicSortFilter"; type: "bool" }
+        }
+        Signal {
+            name: "filterCaseSensitivityChanged"
+            Parameter { name: "filterCaseSensitivity"; type: "Qt::CaseSensitivity" }
+        }
+        Signal {
+            name: "sortCaseSensitivityChanged"
+            Parameter { name: "sortCaseSensitivity"; type: "Qt::CaseSensitivity" }
+        }
+        Signal {
+            name: "sortLocaleAwareChanged"
+            Parameter { name: "sortLocaleAware"; type: "bool" }
+        }
+        Signal {
+            name: "sortRoleChanged"
+            Parameter { name: "sortRole"; type: "int" }
+        }
+        Signal {
+            name: "filterRoleChanged"
+            Parameter { name: "filterRole"; type: "int" }
+        }
+        Signal {
+            name: "recursiveFilteringEnabledChanged"
+            Parameter { name: "recursiveFilteringEnabled"; type: "bool" }
+        }
+        Signal {
+            name: "autoAcceptChildRowsChanged"
+            Parameter { name: "autoAcceptChildRows"; type: "bool" }
+        }
+        Method {
+            name: "setFilterRegularExpression"
+            Parameter { name: "pattern"; type: "QString" }
+        }
+        Method {
+            name: "setFilterRegularExpression"
+            Parameter { name: "regularExpression"; type: "QRegularExpression" }
+        }
+        Method {
+            name: "setFilterWildcard"
+            Parameter { name: "pattern"; type: "QString" }
+        }
+        Method {
+            name: "setFilterFixedString"
+            Parameter { name: "pattern"; type: "QString" }
+        }
+        Method { name: "invalidate" }
+    }
+    Component {
+        file: "axis.h"
+        name: "QmlQCustomPlot::Axis"
         accessSemantics: "reference"
         prototype: "QObject"
-        exports: ["FluentUI/FluNetworkCallable 1.0"]
+        exports: ["FluentUI/Axis 1.0"]
+        isCreatable: false
         exportMetaObjectRevisions: [256]
-        Signal { name: "start" }
-        Signal { name: "finish" }
-        Signal {
-            name: "error"
-            Parameter { name: "status"; type: "int" }
-            Parameter { name: "errorString"; type: "QString" }
-            Parameter { name: "result"; type: "QString" }
+        Enum {
+            name: "TickerType"
+            values: ["Fixed", "Log", "Pi", "Text", "DateTime", "Time"]
+        }
+        Property {
+            name: "visible"
+            type: "bool"
+            read: "visible"
+            write: "set_visible"
+            notify: "visibleChanged"
+            index: 0
+        }
+        Property {
+            name: "label"
+            type: "QString"
+            read: "label"
+            write: "set_label"
+            notify: "labelChanged"
+            index: 1
+        }
+        Property {
+            name: "upper"
+            type: "float"
+            read: "upper"
+            write: "set_upper"
+            notify: "upperChanged"
+            index: 2
+        }
+        Property {
+            name: "lower"
+            type: "float"
+            read: "lower"
+            write: "set_lower"
+            notify: "lowerChanged"
+            index: 3
+        }
+        Property {
+            name: "grid"
+            type: "QmlQCustomPlot::Grid"
+            isPointer: true
+            read: "grid"
+            index: 4
+            isReadonly: true
+            isConstant: true
+        }
+        Property {
+            name: "ticker"
+            type: "QmlQCustomPlot::Ticker"
+            isPointer: true
+            read: "ticker"
+            index: 5
+            isReadonly: true
+            isConstant: true
         }
         Signal {
-            name: "success"
-            Parameter { name: "result"; type: "QString" }
+            name: "visibleChanged"
+            Parameter { type: "bool" }
         }
         Signal {
-            name: "cache"
-            Parameter { name: "result"; type: "QString" }
+            name: "labelChanged"
+            Parameter { type: "QString" }
         }
         Signal {
-            name: "uploadProgress"
-            Parameter { name: "sent"; type: "qlonglong" }
-            Parameter { name: "total"; type: "qlonglong" }
+            name: "upperChanged"
+            Parameter { type: "float" }
         }
         Signal {
-            name: "downloadProgress"
-            Parameter { name: "recv"; type: "qlonglong" }
-            Parameter { name: "total"; type: "qlonglong" }
+            name: "lowerChanged"
+            Parameter { type: "float" }
+        }
+        Signal {
+            name: "gridChanged"
+            Parameter { type: "QmlQCustomPlot::Grid"; isPointer: true }
+        }
+        Signal {
+            name: "tickerChanged"
+            Parameter { type: "QmlQCustomPlot::Ticker"; isPointer: true }
+        }
+        Method {
+            name: "setTickerType"
+            Parameter { name: "type"; type: "TickerType" }
+        }
+        Method {
+            name: "setRange"
+            Parameter { name: "position"; type: "float" }
+            Parameter { name: "size"; type: "float" }
+            Parameter { name: "align"; type: "Qt::AlignmentFlag" }
+        }
+        Method {
+            name: "setRange"
+            Parameter { name: "lower"; type: "float" }
+            Parameter { name: "upper"; type: "float" }
         }
     }
     Component {
-        file: "FluNetwork.h"
-        name: "NetworkParams"
+        file: "baseplot.h"
+        name: "QmlQCustomPlot::BasePlot"
+        accessSemantics: "reference"
+        prototype: "QQuickPaintedItem"
+        exports: ["FluentUI/BasePlot 1.0"]
+        exportMetaObjectRevisions: [256]
+        Property {
+            name: "backgroundColor"
+            type: "QColor"
+            read: "backgroundColor"
+            write: "set_backgroundColor"
+            notify: "backgroundColorChanged"
+            index: 0
+        }
+        Property {
+            name: "xAxis"
+            type: "QmlQCustomPlot::Axis"
+            isPointer: true
+            read: "xAxis"
+            notify: "xAxisChanged"
+            index: 1
+            isReadonly: true
+        }
+        Property {
+            name: "x1Axis"
+            type: "QmlQCustomPlot::Axis"
+            isPointer: true
+            read: "x1Axis"
+            notify: "x1AxisChanged"
+            index: 2
+            isReadonly: true
+        }
+        Property {
+            name: "yAxis"
+            type: "QmlQCustomPlot::Axis"
+            isPointer: true
+            read: "yAxis"
+            notify: "yAxisChanged"
+            index: 3
+            isReadonly: true
+        }
+        Property {
+            name: "y1Axis"
+            type: "QmlQCustomPlot::Axis"
+            isPointer: true
+            read: "y1Axis"
+            notify: "y1AxisChanged"
+            index: 4
+            isReadonly: true
+        }
+        Property {
+            name: "graphs"
+            type: "QVariantMap"
+            read: "graphs"
+            notify: "graphsChanged"
+            index: 5
+            isReadonly: true
+        }
+        Signal {
+            name: "backgroundColorChanged"
+            Parameter { type: "QColor" }
+        }
+        Signal {
+            name: "xAxisChanged"
+            Parameter { type: "QmlQCustomPlot::Axis"; isPointer: true }
+        }
+        Signal {
+            name: "x1AxisChanged"
+            Parameter { type: "QmlQCustomPlot::Axis"; isPointer: true }
+        }
+        Signal {
+            name: "yAxisChanged"
+            Parameter { type: "QmlQCustomPlot::Axis"; isPointer: true }
+        }
+        Signal {
+            name: "y1AxisChanged"
+            Parameter { type: "QmlQCustomPlot::Axis"; isPointer: true }
+        }
+        Signal { name: "graphsChanged" }
+        Method {
+            name: "addGraph"
+            Parameter { name: "key"; type: "QString" }
+        }
+        Method {
+            name: "removeGraph"
+            Parameter { name: "key"; type: "QString" }
+        }
+        Method {
+            name: "rescaleAxes"
+            Parameter { name: "onlyVisiblePlottables"; type: "bool" }
+        }
+        Method { name: "rescaleAxes"; isCloned: true }
+    }
+    Component {
+        file: "grid.h"
+        name: "QmlQCustomPlot::Grid"
         accessSemantics: "reference"
         prototype: "QObject"
-        exports: ["FluentUI/FluNetworkParams 1.0"]
+        exports: ["FluentUI/PlotGrid 1.0"]
+        isCreatable: false
         exportMetaObjectRevisions: [256]
-        Method {
-            name: "addQuery"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "key"; type: "QString" }
-            Parameter { name: "val"; type: "QVariant" }
+        Enum {
+            name: "LineType"
+            values: [
+                "NoPen",
+                "SolidLine",
+                "DashLine",
+                "DotLine",
+                "DashDotLine",
+                "DashDotDotLine"
+            ]
         }
-        Method {
-            name: "addHeader"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "key"; type: "QString" }
-            Parameter { name: "val"; type: "QVariant" }
+        Property {
+            name: "visible"
+            type: "bool"
+            read: "visible"
+            write: "set_visible"
+            notify: "visibleChanged"
+            index: 0
         }
-        Method {
-            name: "add"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "key"; type: "QString" }
-            Parameter { name: "val"; type: "QVariant" }
+        Property {
+            name: "subVisible"
+            type: "bool"
+            read: "subVisible"
+            write: "set_subVisible"
+            notify: "subVisibleChanged"
+            index: 1
         }
-        Method {
-            name: "addFile"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "key"; type: "QString" }
-            Parameter { name: "val"; type: "QVariant" }
+        Property {
+            name: "lineWidth"
+            type: "int"
+            read: "lineWidth"
+            write: "set_lineWidth"
+            notify: "lineWidthChanged"
+            index: 2
         }
-        Method {
-            name: "setBody"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "val"; type: "QString" }
+        Property {
+            name: "lineColor"
+            type: "QColor"
+            read: "lineColor"
+            write: "set_lineColor"
+            notify: "lineColorChanged"
+            index: 3
         }
-        Method {
-            name: "setTimeout"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "val"; type: "int" }
+        Property {
+            name: "lineType"
+            type: "LineType"
+            read: "lineType"
+            write: "set_lineType"
+            notify: "lineTypeChanged"
+            index: 4
         }
-        Method {
-            name: "setRetry"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "val"; type: "int" }
+        Property {
+            name: "subLineWidth"
+            type: "int"
+            read: "subLineWidth"
+            write: "set_subLineWidth"
+            notify: "subLineWidthChanged"
+            index: 5
         }
-        Method {
-            name: "setCacheMode"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "val"; type: "int" }
+        Property {
+            name: "subLineColor"
+            type: "QColor"
+            read: "subLineColor"
+            write: "set_subLineColor"
+            notify: "subLineColorChanged"
+            index: 6
         }
-        Method {
-            name: "toDownload"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "destPath"; type: "QString" }
-            Parameter { name: "append"; type: "bool" }
-        }
-        Method {
-            name: "toDownload"
-            type: "NetworkParams"
-            isPointer: true
-            isCloned: true
-            Parameter { name: "destPath"; type: "QString" }
-        }
-        Method {
-            name: "bind"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "target"; type: "QObject"; isPointer: true }
-        }
-        Method {
-            name: "openLog"
-            type: "NetworkParams"
-            isPointer: true
-            Parameter { name: "val"; type: "QVariant" }
-        }
-        Method {
-            name: "go"
-            Parameter { name: "result"; type: "NetworkCallable"; isPointer: true }
-        }
-    }
-    Component {
-        file: "QRCode.h"
-        name: "QRCode"
-        accessSemantics: "reference"
-        prototype: "QQuickPaintedItem"
-        exports: ["FluentUI/QRCode 1.0"]
-        exportMetaObjectRevisions: [256]
-        Property { name: "text"; type: "QString"; notify: "textChanged"; index: 0 }
-        Property { name: "color"; type: "QColor"; notify: "colorChanged"; index: 1 }
-        Property { name: "bgColor"; type: "QColor"; notify: "bgColorChanged"; index: 2 }
-        Property { name: "size"; type: "int"; notify: "sizeChanged"; index: 3 }
-        Signal { name: "textChanged" }
-        Signal { name: "colorChanged" }
-        Signal { name: "bgColorChanged" }
-        Signal { name: "sizeChanged" }
-    }
-    Component {
-        file: "Screenshot.h"
-        name: "Screenshot"
-        accessSemantics: "reference"
-        prototype: "QQuickPaintedItem"
-        exports: ["FluentUI/Screenshot 1.0"]
-        exportMetaObjectRevisions: [256]
-        Property { name: "start"; type: "QPoint"; notify: "startChanged"; index: 0 }
-        Property { name: "end"; type: "QPoint"; notify: "endChanged"; index: 1 }
-        Property { name: "maskColor"; type: "QColor"; notify: "maskColorChanged"; index: 2 }
-        Signal { name: "startChanged" }
-        Signal { name: "endChanged" }
-        Signal { name: "maskColorChanged" }
-    }
-    Component {
-        file: "Screenshot.h"
-        name: "ScreenshotBackground"
-        accessSemantics: "reference"
-        prototype: "QQuickPaintedItem"
-        exports: ["FluentUI/ScreenshotBackground 1.0"]
-        exportMetaObjectRevisions: [256]
-        Property { name: "saveFolder"; type: "QString"; notify: "saveFolderChanged"; index: 0 }
-        Property { name: "captureMode"; type: "int"; notify: "captureModeChanged"; index: 1 }
-        Signal { name: "saveFolderChanged" }
-        Signal { name: "captureModeChanged" }
-        Signal {
-            name: "captrueToPixmapCompleted"
-            Parameter { name: "captrue"; type: "QPixmap" }
+        Property {
+            name: "subLineType"
+            type: "LineType"
+            read: "subLineType"
+            write: "set_subLineType"
+            notify: "subLineTypeChanged"
+            index: 7
         }
         Signal {
-            name: "captrueToFileCompleted"
-            Parameter { name: "captrue"; type: "QUrl" }
+            name: "visibleChanged"
+            Parameter { type: "bool" }
         }
-        Method {
-            name: "capture"
-            Parameter { name: "start"; type: "QPoint" }
-            Parameter { name: "end"; type: "QPoint" }
+        Signal {
+            name: "subVisibleChanged"
+            Parameter { type: "bool" }
+        }
+        Signal {
+            name: "lineWidthChanged"
+            Parameter { type: "int" }
+        }
+        Signal {
+            name: "lineColorChanged"
+            Parameter { type: "QColor" }
+        }
+        Signal {
+            name: "lineTypeChanged"
+            Parameter { type: "LineType" }
+        }
+        Signal {
+            name: "subLineWidthChanged"
+            Parameter { type: "int" }
+        }
+        Signal {
+            name: "subLineColorChanged"
+            Parameter { type: "QColor" }
+        }
+        Signal {
+            name: "subLineTypeChanged"
+            Parameter { type: "LineType" }
         }
     }
     Component {
-        file: "WindowLifecycle.h"
-        name: "WindowLifecycle"
+        file: "ticker.h"
+        name: "QmlQCustomPlot::Ticker"
         accessSemantics: "reference"
         prototype: "QObject"
-        exports: ["FluentUI/WindowLifecycle 1.0"]
+        exports: ["FluentUI/Ticker 1.0"]
+        isCreatable: false
         exportMetaObjectRevisions: [256]
-        Method {
-            name: "onCompleted"
-            Parameter { name: "window"; type: "QQuickWindow"; isPointer: true }
+        Property {
+            name: "ticks"
+            type: "bool"
+            read: "ticks"
+            write: "set_ticks"
+            notify: "ticksChanged"
+            index: 0
         }
-        Method { name: "onDestruction" }
-        Method {
-            name: "onVisible"
-            Parameter { name: "visible"; type: "bool" }
+        Property {
+            name: "subTicks"
+            type: "bool"
+            read: "subTicks"
+            write: "set_subTicks"
+            notify: "subTicksChanged"
+            index: 1
         }
-        Method { name: "onDestoryOnClose" }
+        Property {
+            name: "tickCount"
+            type: "int"
+            read: "tickCount"
+            write: "set_tickCount"
+            notify: "tickCountChanged"
+            index: 2
+        }
+        Property {
+            name: "baseWidth"
+            type: "int"
+            read: "baseWidth"
+            write: "set_baseWidth"
+            notify: "baseWidthChanged"
+            index: 3
+        }
+        Property {
+            name: "baseColor"
+            type: "QColor"
+            read: "baseColor"
+            write: "set_baseColor"
+            notify: "baseColorChanged"
+            index: 4
+        }
+        Property {
+            name: "tickColor"
+            type: "QColor"
+            read: "tickColor"
+            write: "set_tickColor"
+            notify: "tickColorChanged"
+            index: 5
+        }
+        Property {
+            name: "subTickColor"
+            type: "QColor"
+            read: "subTickColor"
+            write: "set_subTickColor"
+            notify: "subTickColorChanged"
+            index: 6
+        }
+        Signal {
+            name: "ticksChanged"
+            Parameter { type: "bool" }
+        }
+        Signal {
+            name: "subTicksChanged"
+            Parameter { type: "bool" }
+        }
+        Signal {
+            name: "tickCountChanged"
+            Parameter { type: "int" }
+        }
+        Signal {
+            name: "baseWidthChanged"
+            Parameter { type: "int" }
+        }
+        Signal {
+            name: "baseColorChanged"
+            Parameter { type: "QColor" }
+        }
+        Signal {
+            name: "tickColorChanged"
+            Parameter { type: "QColor" }
+        }
+        Signal {
+            name: "subTickColorChanged"
+            Parameter { type: "QColor" }
+        }
+    }
+    Component {
+        file: "TimePlot.h"
+        name: "QmlQCustomPlot::TimePlot"
+        accessSemantics: "reference"
+        prototype: "QmlQCustomPlot::BasePlot"
+        exports: ["FluentUI/TimePlot 1.0"]
+        exportMetaObjectRevisions: [256]
+        Property {
+            name: "plotTimeRangeInMilliseconds"
+            type: "int"
+            read: "plotTimeRangeInMilliseconds"
+            write: "set_plotTimeRangeInMilliseconds"
+            notify: "plotTimeRangeInMillisecondsChanged"
+            index: 0
+        }
+        Signal {
+            name: "plotTimeRangeInMillisecondsChanged"
+            Parameter { type: "int" }
+        }
         Method {
-            name: "createRegister"
-            type: "QVariant"
-            Parameter { name: "window"; type: "QQuickWindow"; isPointer: true }
-            Parameter { name: "path"; type: "QString" }
+            name: "setTimeFormat"
+            Parameter { name: "format"; type: "QString" }
+        }
+        Method {
+            name: "addCurrentTimeValue"
+            Parameter { name: "name"; type: "QString" }
+            Parameter { name: "value"; type: "double" }
+        }
+        Method {
+            name: "addCurrentTimeValues"
+            Parameter { name: "values"; type: "QVariantMap" }
         }
     }
 }

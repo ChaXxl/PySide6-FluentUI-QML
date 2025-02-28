@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Controls.Basic
 import QtQuick.Layouts
 import FluentUI
 
@@ -19,10 +20,22 @@ Button {
     property color checkedDisableColor: FluTheme.dark ? Qt.rgba(82/255,82/255,82/255,1) : Qt.rgba(199/255,199/255,199/255,1)
     property color disableColor: FluTheme.dark ? Qt.rgba(50/255,50/255,50/255,1) : Qt.rgba(253/255,253/255,253/255,1)
     property real size: 18
-    property alias textColor: btn_text.textColor
+    property color textColor: {
+        if(FluTheme.dark){
+            if(!enabled){
+                return Qt.rgba(130/255,130/255,130/255,1)
+            }
+            return Qt.rgba(1,1,1,1)
+        }else{
+            if(!enabled){
+                return Qt.rgba(161/255,161/255,161/255,1)
+            }
+            return Qt.rgba(0,0,0,1)
+        }
+    }
     property bool textRight: true
     property real textSpacing: 6
-    property bool enableAnimation: FluTheme.enableAnimation
+    property bool animationEnabled: FluTheme.animationEnabled
     property var clickListener : function(){
         checked = !checked
     }
@@ -41,6 +54,8 @@ Button {
             visible: control.activeFocus
         }
     }
+    focusPolicy:Qt.TabFocus
+    font:FluTextStyle.Body
     horizontalPadding:0
     verticalPadding: 0
     padding: 0
@@ -48,7 +63,6 @@ Button {
     Accessible.name: control.text
     Accessible.description: contentDescription
     Accessible.onPressAction: control.clicked()
-    focusPolicy:Qt.TabFocus
     contentItem: RowLayout{
         spacing: control.textSpacing
         layoutDirection:control.textRight ? Qt.LeftToRight : Qt.RightToLeft
@@ -93,13 +107,6 @@ Button {
                 }
                 return normalColor
             }
-            Behavior on color {
-                enabled: control.enableAnimation
-                ColorAnimation{
-                    duration: 83
-                }
-            }
-
             FluIcon {
                 anchors.centerIn: parent
                 iconSource: FluentIcons.CheckboxIndeterminate
@@ -107,7 +114,7 @@ Button {
                 visible: indeterminate
                 iconColor: FluTheme.dark ? Qt.rgba(0,0,0,1) : Qt.rgba(1,1,1,1)
                 Behavior on visible {
-                    enabled: control.enableAnimation
+                    enabled: control.animationEnabled
                     NumberAnimation{
                         duration: 83
                     }
@@ -121,7 +128,7 @@ Button {
                 visible: checked && !indeterminate
                 iconColor: FluTheme.dark ? Qt.rgba(0,0,0,1) : Qt.rgba(1,1,1,1)
                 Behavior on visible {
-                    enabled: control.enableAnimation
+                    enabled: control.animationEnabled
                     NumberAnimation{
                         duration: 83
                     }
@@ -133,6 +140,8 @@ Button {
             text: control.text
             Layout.alignment: Qt.AlignVCenter
             visible: text !== ""
+            font: control.font
+            color: control.textColor
         }
     }
 }

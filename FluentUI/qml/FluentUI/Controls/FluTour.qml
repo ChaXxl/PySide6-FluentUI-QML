@@ -10,11 +10,14 @@ Popup{
     property Component nextButton: com_next_button
     property Component prevButton: com_prev_button
     property int index : 0
+    property string finishText: qsTr("Finish")
+    property string nextText: qsTr("Next")
+    property string previousText: qsTr("Previous")
     id:control
     padding: 0
-    anchors.centerIn: Overlay.overlay
-    width: d.window?.width
-    height: d.window?.height
+    parent: Overlay.overlay
+    width: d.parentWidth
+    height: d.parentHeight
     background: Item{}
     contentItem: Item{}
     onVisibleChanged: {
@@ -26,9 +29,9 @@ Popup{
         canvas.requestPaint()
     }
     Component{
-        id:com_next_button
+        id: com_next_button
         FluFilledButton{
-            text: isEnd ? "结束导览" :"下一步"
+            text: isEnd ? control.finishText : control.nextText
             onClicked: {
                 if(isEnd){
                     control.close()
@@ -39,9 +42,9 @@ Popup{
         }
     }
     Component{
-        id:com_prev_button
+        id: com_prev_button
         FluButton{
-            text: "上一步"
+            text: control.previousText
             onClicked: {
                 control.index = control.index - 1
             }
@@ -50,9 +53,26 @@ Popup{
     Item{
         id:d
         property var window: Window.window
-        property var pos:Qt.point(0,0)
-        property var step : steps[index]
-        property var target : step.target()
+        property point pos: Qt.point(0,0)
+        property var step: steps[index]
+        property var target: {
+            if(steps[index]){
+                return steps[index].target()
+            }
+            return undefined
+        }
+        property int parentHeight: {
+            if(control.parent){
+                return control.parent.height
+            }
+            return control.height
+        }
+        property int parentWidth: {
+            if(control.parent){
+                return control.parent.width
+            }
+            return control.width
+        }
     }
     Connections{
         target: d.window
@@ -66,14 +86,14 @@ Popup{
         }
     }
     Timer{
-        id:timer_delay
+        id: timer_delay
         interval: 200
         onTriggered: {
             canvas.requestPaint()
         }
     }
     Canvas{
-        id:canvas
+        id: canvas
         anchors.fill: parent
         onPaint: {
             d.pos = d.target.mapToGlobal(0,0)
@@ -85,7 +105,8 @@ Popup{
             ctx.fillRect(0, 0, canvasSize.width, canvasSize.height)
             ctx.globalCompositeOperation = 'destination-out'
             ctx.fillStyle = 'black'
-            drawRoundedRect(Qt.rect(d.pos.x-control.targetMargins,d.pos.y-control.targetMargins, d.target.width+control.targetMargins*2, d.target.height+control.targetMargins*2),2,ctx)
+            var rect = Qt.rect(d.pos.x-control.targetMargins,d.pos.y-control.targetMargins, d.target.width+control.targetMargins*2, d.target.height+control.targetMargins*2)
+            drawRoundedRect(rect,2,ctx)
             ctx.restore()
         }
         function drawRoundedRect(rect, r, ctx) {
@@ -103,24 +124,43 @@ Popup{
             ctx.fill()
         }
     }
-    FluArea{
-        id:layout_panne
+    FluFrame{
+        id: layout_panne
         radius: 5
         width: 500
         height: 88 + text_desc.height
         color: FluTheme.dark ? Qt.rgba(39/255,39/255,39/255,1) : Qt.rgba(251/255,251/255,253/255,1)
-        property int dir : (y<d.pos.y)?1:0
-        x: Math.min(Math.max(0,d.pos.x+d.target.width/2-width/2),d.window?.width-width)
+        property int dir : {
+            if(y<d.pos.y)
+                return 1
+            return 0
+        }
+        x: {
+            if(d.target){
+                return Math.min(Math.max(0,d.pos.x+d.target.width/2-width/2),control.width-width)
+            }
+            return 0
+        }
         y: {
-            var ty=d.pos.y+d.target.height+control.targetMargins + 15
-            return ((ty+height)>d.window?.height)?(d.pos.y-height-control.targetMargins - 15):ty   
+            if(d.target){
+                var ty=d.pos.y+d.target.height+control.targetMargins + 15
+                if((ty+height)>control.height)
+                    return d.pos.y-height-control.targetMargins - 15
+                return ty
+            }
+            return 0
         }
         border.width: 0
         FluShadow{
             radius: 5
         }
         FluText{
-            text: d.step.title
+            text: {
+                if(d.step){
+                    return d.step.title
+                }
+                return ""
+            }
             font: FluTextStyle.BodyStrong
             elide: Text.ElideRight
             anchors{
@@ -133,12 +173,17 @@ Popup{
             }
         }
         FluText{
-            id:text_desc
+            id: text_desc
             font: FluTextStyle.Body
-            wrapMode: Text.WrapAnywhere
+            wrapMode: Text.WordWrap
             maximumLineCount: 4
             elide: Text.ElideRight
-            text: d.step.description
+            text: {
+                if(d.step){
+                    return d.step.description
+                }
+                return ""
+            }
             anchors{
                 top: parent.top
                 left: parent.left
@@ -149,22 +194,22 @@ Popup{
             }
         }
         FluLoader{
-            id:loader_next
+            id: loader_next
             property bool isEnd: control.index === steps.length-1
             sourceComponent: com_next_button
             anchors{
-                top:text_desc.bottom
+                top: text_desc.bottom
                 topMargin: 10
                 right: parent.right
                 rightMargin: 15
             }
         }
         FluLoader{
-            id:loader_prev
+            id: loader_prev
             visible: control.index !== 0
             sourceComponent: com_prev_button
             anchors{
-                right:loader_next.left
+                right: loader_next.left
                 top: loader_next.top
                 rightMargin: 14
             }
@@ -180,7 +225,7 @@ Popup{
             verticalPadding: 0
             horizontalPadding: 0
             iconSize: 12
-            iconSource : FluentIcons.ChromeClose
+            iconSource: FluentIcons.ChromeClose
             onClicked: {
                 control.close()
             }
@@ -189,7 +234,17 @@ Popup{
     FluIcon{
         iconSource: layout_panne.dir?FluentIcons.FlickUp:FluentIcons.FlickDown
         color: layout_panne.color
-        x: d.pos.x+d.target.width/2-10
-        y: d.pos.y+(layout_panne.dir?-height:d.target.height)
+        x: {
+            if(d.target){
+                return d.pos.x+d.target.width/2-10
+            }
+            return 0
+        }
+        y: {
+            if(d.target){
+                return d.pos.y+(layout_panne.dir?-height:d.target.height)
+            }
+            return 0
+        }
     }
 }

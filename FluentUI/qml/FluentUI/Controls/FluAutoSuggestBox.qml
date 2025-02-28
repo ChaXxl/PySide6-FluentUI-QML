@@ -4,18 +4,42 @@ import FluentUI
 
 FluTextBox{
     property var items:[]
-    property string emptyText: "没有找到结果"
+    property string emptyText: qsTr("No results found")
     property int autoSuggestBoxReplacement: FluentIcons.Search
-    property var window : Window.window
+    property string textRole: "title"
+    property var filter: function(item){
+        if(item.title.indexOf(control.text)!==-1){
+            return true
+        }
+        return false
+    }
     signal itemClicked(var data)
-    signal handleClicked
     id:control
     Component.onCompleted: {
-        loadData()
+        d.loadData()
     }
-    QtObject{
+    Item{
         id:d
         property bool flagVisible: true
+        property var window : Window.window
+        function handleClick(modelData){
+            control_popup.visible = false
+            control.itemClicked(modelData)
+            control.updateText(modelData[textRole])
+        }
+        function loadData(){
+            var result = []
+            if(items==null){
+                list_view.model = result
+                return
+            }
+            items.map(function(item){
+                if(control.filter(item)){
+                    result.push(item)
+                }
+            })
+            list_view.model = result
+        }
     }
     onActiveFocusChanged: {
         if(!activeFocus){
@@ -24,7 +48,6 @@ FluTextBox{
     }
     Popup{
         id:control_popup
-        y:control.height
         focus: false
         padding: 0
         enter: Transition {
@@ -32,17 +55,13 @@ FluTextBox{
                 property: "opacity"
                 from:0
                 to:1
-                duration: FluTheme.enableAnimation ? 83 : 0
+                duration: FluTheme.animationEnabled ? 83 : 0
             }
         }
-        contentItem: FluRectangle{
-            radius: [4,4,4,4]
-            FluShadow{
-                radius: 4
-            }
-            color: FluTheme.dark ? Qt.rgba(51/255,48/255,48/255,1) : Qt.rgba(248/255,250/255,253/255,1)
+        contentItem: FluClip{
+            radius: [5,5,5,5]
             ListView{
-                id:list_view
+                id: list_view
                 anchors.fill: parent
                 clip: true
                 boundsBehavior: ListView.StopAtBounds
@@ -52,7 +71,7 @@ FluTextBox{
                     height: visible ? 38 : 0
                     visible: list_view.count === 0
                     FluText{
-                        text:emptyText
+                        text: emptyText
                         anchors{
                             verticalCenter: parent.verticalCenter
                             left: parent.left
@@ -61,11 +80,11 @@ FluTextBox{
                     }
                 }
                 delegate:FluControl{
-                    id:item_control
+                    id: item_control
                     height: 38
                     width: control.width
-                    onClicked:{
-                        handleClick(modelData)
+                    onClicked: {
+                        d.handleClick(modelData)
                     }
                     background: Rectangle{
                         FluFocusRectangle{
@@ -73,14 +92,17 @@ FluTextBox{
                             radius:4
                         }
                         color:  {
-                            if(hovered){
-                                return FluTheme.dark ? Qt.rgba(63/255,60/255,61/255,1) : Qt.rgba(237/255,237/255,242/255,1)
+                            if(pressed){
+                                return FluTheme.itemPressColor
                             }
-                            return FluTheme.dark ? Qt.rgba(51/255,48/255,48/255,1) : Qt.rgba(0,0,0,0)
+                            if(hovered){
+                                return FluTheme.itemHoverColor
+                            }
+                            return FluTheme.itemNormalColor
                         }
                     }
                     contentItem: FluText{
-                        text:modelData.title
+                        text: modelData[textRole]
                         leftPadding: 10
                         rightPadding: 10
                         verticalAlignment : Qt.AlignVCenter
@@ -88,47 +110,35 @@ FluTextBox{
                 }
             }
         }
-        background: Item{
-            id:container
+        background:Rectangle{
+            id: rect_background
             implicitWidth: control.width
             implicitHeight: 38*Math.min(Math.max(list_view.count,1),8)
+            radius: 5
+            color: FluTheme.dark ? Qt.rgba(43/255,43/255,43/255,1) : Qt.rgba(1,1,1,1)
+            border.color: FluTheme.dark ? Qt.rgba(26/255,26/255,26/255,1) : Qt.rgba(191/255,191/255,191/255,1)
+            FluShadow{
+                radius: 5
+            }
         }
     }
     onTextChanged: {
-        loadData()
+        d.loadData()
         if(d.flagVisible){
             var pos = control.mapToItem(null, 0, 0)
-            if(window.height>pos.y+control.height+container.implicitHeight){
-                control_popup.y = control.height
-            } else if(pos.y>container.implicitHeight){
-                control_popup.y = -container.implicitHeight
+            if(d.window.height>pos.y+control.height+rect_background.implicitHeight){
+                control_popup.y = Qt.binding(function(){return control.height})
+            } else if(pos.y>rect_background.implicitHeight){
+                control_popup.y = -rect_background.implicitHeight
             } else {
-                control_popup.y = window.height-(pos.y+container.implicitHeight)
+                control_popup.y = d.window.height-(pos.y+rect_background.implicitHeight) - 1
             }
             control_popup.visible = true
         }
-    }
-    function handleClick(modelData){
-        control_popup.visible = false
-        control.itemClicked(modelData)
-        updateText(modelData.title)
     }
     function updateText(text){
         d.flagVisible = false
         control.text = text
         d.flagVisible = true
-    }
-    function loadData(){
-        var result = []
-        if(items==null){
-            list_view.model = result
-            return
-        }
-        items.map(function(item){
-            if(item.title.indexOf(control.text)!==-1){
-                result.push(item)
-            }
-        })
-        list_view.model = result
     }
 }

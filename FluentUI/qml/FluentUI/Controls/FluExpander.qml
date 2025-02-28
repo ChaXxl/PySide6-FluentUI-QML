@@ -4,37 +4,69 @@ import QtQuick.Window
 import FluentUI
 
 Item {
-    property string  headerText: "Titlte"
+    property string  headerText: ""
+    property int headerHeight : 45
+    property Component headerDelegate: com_header
     property bool expand: false
     property int contentHeight : 300
     default property alias content: container.data
     id:control
-    implicitHeight: Math.max((layout_header.height + container.height),layout_header.height)
+    implicitHeight: Math.max((layout_header.height + layout_container.height),layout_header.height)
     implicitWidth: 400
+    QtObject{
+        id:d
+        property bool flag: false
+        function toggle(){
+            d.flag = true
+            expand = !expand
+            d.flag = false
+        }
+    }
+    clip: true
+    Component {
+        id: com_header
+        Item {
+            FluText {
+                text: control.headerText
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    left: parent.left
+                    leftMargin: 15
+                }
+            }
+        }
+    }
     Rectangle{
         id:layout_header
         width: parent.width
-        height: 45
+        height: control.headerHeight
         radius: 4
-        color: FluTheme.dark ? Window.active ? Qt.rgba(38/255,44/255,54/255,1) : Qt.rgba(39/255,39/255,39/255,1) : Qt.rgba(251/255,251/255,253/255,1)
-        border.color: FluTheme.dark ?  Window.active ? Qt.rgba(55/255,55/255,55/255,1) : Qt.rgba(45/255,45/255,45/255,1) : Qt.rgba(226/255,229/255,234/255,1)
+        border.color: FluTheme.dividerColor
+        color: {
+            if(Window.active){
+                return FluTheme.frameActiveColor
+            }
+            return FluTheme.frameColor
+        }
         MouseArea{
             id:control_mouse
             anchors.fill: parent
             hoverEnabled: true
             onClicked: {
-                expand = !expand
+                d.toggle()
             }
         }
-        FluText{
-            text: headerText
-            anchors{
-                verticalCenter: parent.verticalCenter
+        FluLoader {
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
                 left: parent.left
-                leftMargin: 15
+                right: btn_toggle.left
             }
+            sourceComponent: control.headerDelegate
         }
         FluIconButton{
+            id: btn_toggle
             anchors{
                 verticalCenter: parent.verticalCenter
                 right: parent.right
@@ -47,14 +79,14 @@ Item {
                 return FluTheme.dark ? Qt.rgba(0,0,0,0) : Qt.rgba(0,0,0,0)
             }
             onClicked: {
-                expand = !expand
+                d.toggle()
             }
             contentItem: FluIcon{
                 rotation: expand?0:180
                 iconSource:FluentIcons.ChevronUp
                 iconSize: 15
                 Behavior on rotation {
-                    enabled: FluTheme.enableAnimation
+                    enabled: FluTheme.animationEnabled
                     NumberAnimation{
                         duration: 167
                         easing.type: Easing.OutCubic
@@ -64,31 +96,37 @@ Item {
         }
     }
     Item{
+        id:layout_container
         anchors{
             top: layout_header.bottom
             topMargin: -1
             left: layout_header.left
         }
+        visible: contentHeight+container.anchors.topMargin !== 0
+        height: contentHeight+container.anchors.topMargin
         width: parent.width
+        z:-999
         clip: true
-        visible: contentHeight+container.y !== 0
-        height: contentHeight+container.y
         Rectangle{
             id:container
-            width: parent.width
-            height: parent.height
+            anchors.fill: parent
             radius: 4
             clip: true
-            color: FluTheme.dark ? Qt.rgba(39/255,39/255,39/255,1) : Qt.rgba(251/255,251/255,253/255,1)
-            border.color: FluTheme.dark ? Qt.rgba(45/255,45/255,45/255,1) : Qt.rgba(226/255,229/255,234/255,1)
-            y: -contentHeight
+            color: {
+                if(Window.active){
+                    return FluTheme.frameActiveColor
+                }
+                return FluTheme.frameColor
+            }
+            border.color: FluTheme.dividerColor
+            anchors.topMargin: -contentHeight
             states: [
                 State{
                     name:"expand"
                     when: control.expand
                     PropertyChanges {
                         target: container
-                        y:0
+                        anchors.topMargin:0
                     }
                 },
                 State{
@@ -96,7 +134,7 @@ Item {
                     when: !control.expand
                     PropertyChanges {
                         target: container
-                        y:-contentHeight
+                        anchors.topMargin:-contentHeight
                     }
                 }
             ]
@@ -104,16 +142,16 @@ Item {
                 Transition {
                     to:"expand"
                     NumberAnimation {
-                        properties: "y"
-                        duration: FluTheme.enableAnimation ? 167 : 0
+                        properties: "anchors.topMargin"
+                        duration: FluTheme.animationEnabled && d.flag ? 167 : 0
                         easing.type: Easing.OutCubic
                     }
                 },
                 Transition {
                     to:"collapsed"
                     NumberAnimation {
-                        properties: "y"
-                        duration: FluTheme.enableAnimation ? 167 : 0
+                        properties: "anchors.topMargin"
+                        duration: FluTheme.animationEnabled && d.flag ? 167 : 0
                         easing.type: Easing.OutCubic
                     }
                 }

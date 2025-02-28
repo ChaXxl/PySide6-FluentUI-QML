@@ -3,7 +3,19 @@ import QtQuick.Controls
 import FluentUI
 
 TextEdit {
-    property color textColor: FluTheme.dark ? FluColors.White : FluColors.Grey220
+    property color textColor: {
+        if(FluTheme.dark){
+            if(!enabled){
+                return Qt.rgba(130/255,130/255,130/255,1)
+            }
+            return Qt.rgba(1,1,1,1)
+        }else{
+            if(!enabled){
+                return Qt.rgba(161/255,161/255,161/255,1)
+            }
+            return Qt.rgba(0,0,0,1)
+        }
+    }
     id:control
     color: textColor
     readOnly: true
@@ -17,7 +29,7 @@ TextEdit {
     selectByMouse: true
     selectedTextColor: color
     bottomPadding: 0
-    selectionColor: FluTools.colorAlpha(FluTheme.primaryColor,0.5)
+    selectionColor: FluTools.withOpacity(FluTheme.primaryColor,0.5)
     font:FluTextStyle.Body
     onSelectedTextChanged: {
         control.forceActiveFocus()
@@ -26,10 +38,24 @@ TextEdit {
         anchors.fill: parent
         cursorShape: Qt.IBeamCursor
         acceptedButtons: Qt.RightButton
-        onClicked: control.echoMode !== TextInput.Password && menu.popup()
+        onClicked: control.echoMode !== TextInput.Password && menu_loader.popup()
     }
-    FluTextBoxMenu{
+    FluLoader{
+        id: menu_loader
+        function popup(){
+            sourceComponent = menu
+        }
+    }
+    Component{
         id:menu
-        inputItem: control
+        FluTextBoxMenu{
+            inputItem: control
+            Component.onCompleted: {
+                popup()
+            }
+            onClosed: {
+                menu_loader.sourceComponent = undefined
+            }
+        }
     }
 }

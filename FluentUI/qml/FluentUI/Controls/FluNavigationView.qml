@@ -22,6 +22,9 @@ Item {
     property int cellHeight: 38
     property int cellWidth: 300
     property bool hideNavAppBar: false
+    property alias buttonMenu: btn_menu
+    property alias buttonBack: btn_back
+    property alias imageLogo: image_logo
     signal logoClicked
     id:control
     Item{
@@ -165,7 +168,7 @@ Item {
                 return  control.cellHeight
             }
             Behavior on height {
-                enabled: FluTheme.enableAnimation && d.animDisabled
+                enabled: FluTheme.animationEnabled && d.animDisabled
                 NumberAnimation{
                     duration: 83
                 }
@@ -202,7 +205,7 @@ Item {
                 }
                 FluTooltip {
                     text: model.title
-                    visible: item_control.hovered && model.title && d.isCompact
+                    visible: item_control.hovered && model.title && d.isCompactAndNotPanel
                     delay: 800
                 }
                 MouseArea{
@@ -308,7 +311,7 @@ Item {
                             return true
                         }
                         Behavior on rotation {
-                            enabled: FluTheme.enableAnimation && d.animDisabled
+                            enabled: FluTheme.animationEnabled && d.animDisabled
                             NumberAnimation{
                                 duration: 167
                                 easing.type: Easing.OutCubic
@@ -455,7 +458,7 @@ Item {
         id:com_panel_item
         Item{
             Behavior on height {
-                enabled: FluTheme.enableAnimation && d.animDisabled
+                enabled: FluTheme.animationEnabled && d.animDisabled
                 NumberAnimation{
                     duration: 167
                     easing.type: Easing.OutCubic
@@ -489,7 +492,7 @@ Item {
                 }
                 FluTooltip {
                     text: model.title
-                    visible: item_control.hovered && model.title && d.isCompact
+                    visible: item_control.hovered && model.title && d.isCompactAndNotPanel
                     delay: 800
                 }
                 onClicked:{
@@ -756,7 +759,7 @@ Item {
                 }
             }
             FluIconButton{
-                id:btn_nav
+                id:btn_menu
                 iconSource: FluentIcons.GlobalNavButton
                 iconSize: 15
                 Layout.preferredWidth: d.isMinimal ? 30 : 0
@@ -769,13 +772,13 @@ Item {
                 visible: opacity
                 opacity: d.isMinimal
                 Behavior on opacity{
-                    enabled: FluTheme.enableAnimation && d.animDisabled
+                    enabled: FluTheme.animationEnabled && d.animDisabled
                     NumberAnimation{
                         duration: 83
                     }
                 }
                 Behavior on Layout.preferredWidth {
-                    enabled: FluTheme.enableAnimation && d.animDisabled
+                    enabled: FluTheme.animationEnabled && d.animDisabled
                     NumberAnimation{
                         duration: 167
                         easing.type: Easing.OutCubic
@@ -788,7 +791,7 @@ Item {
                 Layout.preferredWidth: 20
                 source: control.logo
                 Layout.leftMargin: {
-                    if(btn_nav.visible){
+                    if(btn_menu.visible){
                         return 12
                     }
                     return 5
@@ -878,7 +881,7 @@ Item {
             }
         }
         Behavior on anchors.leftMargin {
-            enabled: FluTheme.enableAnimation && d.animDisabled
+            enabled: FluTheme.animationEnabled && d.animDisabled
             NumberAnimation{
                 duration: 167
                 easing.type: Easing.OutCubic
@@ -923,14 +926,14 @@ Item {
         }
         x: visible ? 0 : -width
         Behavior on width {
-            enabled: FluTheme.enableAnimation && d.animDisabled
+            enabled: FluTheme.animationEnabled && d.animDisabled
             NumberAnimation{
                 duration: 167
                 easing.type: Easing.OutCubic
             }
         }
         Behavior on x {
-            enabled: FluTheme.enableAnimation && d.animDisabled
+            enabled: FluTheme.animationEnabled && d.animDisabled
             NumberAnimation{
                 duration: 167
                 easing.type: Easing.OutCubic
@@ -1010,7 +1013,7 @@ Item {
                 interactive: false
                 model:d.handleItems()
                 boundsBehavior: ListView.StopAtBounds
-                highlightMoveDuration: FluTheme.enableAnimation && d.animDisabled ? 167 : 0
+                highlightMoveDuration: FluTheme.animationEnabled && d.animDisabled ? 167 : 0
                 highlight: Item{
                     clip: true
                     Rectangle{
@@ -1118,7 +1121,8 @@ Item {
         }
         padding: 0
         focus: true
-        contentItem: Item{
+        contentItem: FluClip{
+            radius: [5,5,5,5]
             ListView{
                 id:list_view
                 anchors.fill: parent
@@ -1143,7 +1147,6 @@ Item {
                             visible: item_button.activeFocus
                             radius:4
                         }
-
                         FluLoader{
                             id:item_dot_loader
                             anchors{
@@ -1158,7 +1161,6 @@ Item {
                                 return undefined
                             }
                         }
-
                     }
                     contentItem: FluText{
                         text:modelData.title
@@ -1185,13 +1187,13 @@ Item {
                 }
             }
         }
-        background: FluRectangle{
+        background: Rectangle{
             implicitWidth: 180
-            radius: [4,4,4,4]
-            FluShadow{
-                radius: 4
-            }
-            color: FluTheme.dark ? Qt.rgba(51/255,48/255,48/255,1) : Qt.rgba(248/255,250/255,253/255,1)
+            color:FluTheme.dark ? Qt.rgba(45/255,45/255,45/255,1) : Qt.rgba(252/255,252/255,252/255,1)
+            border.color: FluTheme.dark ? Qt.rgba(26/255,26/255,26/255,1) : Qt.rgba(191/255,191/255,191/255,1)
+            border.width: 1
+            radius: 5
+            FluShadow{}
         }
         function showPopup(pos,height,model){
             background.implicitHeight = height
@@ -1229,10 +1231,14 @@ Item {
         }
     }
     function setCurrentIndex(index){
-        nav_list.currentIndex = index
         var item = nav_list.model[index]
-        if(item instanceof FluPaneItem){
-            item.tap()
+        if(item.url){
+            nav_list.currentIndex = index
+            if(item instanceof FluPaneItem){
+                item.tap()
+            }
+        }else{
+            item.onTapListener()
         }
     }
     function getItems(){
@@ -1308,7 +1314,7 @@ Item {
             d.stackItems = d.stackItems.concat(nav_list.model[nav_list.currentIndex])
         }
         function noStackPush(){
-            if(loader_content.source.toString() === url){
+            if(loader_content.source.toString() === url && Object.keys(argument).length === 0){
                 return
             }
             loader_content.setSource(url,argument)
@@ -1337,14 +1343,5 @@ Item {
                 return
             }
         }
-    }
-    function backButton(){
-        return btn_back
-    }
-    function navButton(){
-        return btn_nav
-    }
-    function logoButton(){
-        return image_logo
     }
 }

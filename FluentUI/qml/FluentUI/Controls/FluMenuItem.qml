@@ -41,6 +41,7 @@ T.MenuItem {
     icon.height: 24
     icon.color: control.palette.windowText
     height: visible ? implicitHeight : 0
+    font:FluTextStyle.Body
     Component{
         id:com_icon
         FluIcon{
@@ -70,6 +71,7 @@ T.MenuItem {
             FluText {
                 id:content_text
                 text: control.text
+                font: control.font
                 color: control.textColor
                 anchors.verticalCenter: parent.verticalCenter
             }
@@ -98,9 +100,9 @@ T.MenuItem {
             anchors.fill: parent
             anchors.margins: 3
             radius: 4
-            color:{
+            color: {
                 if(control.highlighted){
-                    return FluTheme.itemCheckColor
+                    return FluTheme.itemHoverColor
                 }
                 return FluTheme.itemNormalColor
             }

@@ -11,6 +11,7 @@ T.ComboBox {
     property color normalColor: FluTheme.dark ? Qt.rgba(62/255,62/255,62/255,1) : Qt.rgba(254/255,254/255,254/255,1)
     property color hoverColor: FluTheme.dark ? Qt.rgba(68/255,68/255,68/255,1) : Qt.rgba(251/255,251/255,251/255,1)
     property color disableColor: FluTheme.dark ? Qt.rgba(59/255,59/255,59/255,1) : Qt.rgba(252/255,252/255,252/255,1)
+    property alias textBox: text_field
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
@@ -39,30 +40,38 @@ T.ComboBox {
         opacity: enabled ? 1 : 0.3
     }
     contentItem: T.TextField {
+        id: text_field
         property bool disabled: !control.editable
         leftPadding: !control.mirrored ? 10 : control.editable && activeFocus ? 3 : 1
         rightPadding: control.mirrored ? 10 : control.editable && activeFocus ? 3 : 1
         topPadding: 6 - control.padding
         bottomPadding: 6 - control.padding
         renderType: FluTheme.nativeText ? Text.NativeRendering : Text.QtRendering
-        selectionColor: FluTools.colorAlpha(FluTheme.primaryColor,0.5)
+        selectionColor: FluTools.withOpacity(FluTheme.primaryColor,0.5)
         selectedTextColor: color
         text: control.editable ? control.editText : control.displayText
         enabled: control.editable
         autoScroll: control.editable
         font:control.font
         readOnly: control.down
-        color: FluTheme.dark ?  Qt.rgba(255/255,255/255,255/255,1) : Qt.rgba(27/255,27/255,27/255,1)
+        color: {
+            if(control.disabled) {
+                return FluTheme.dark ? Qt.rgba(131/255,131/255,131/255,1) : Qt.rgba(160/255,160/255,160/255,1)
+            }
+            return FluTheme.dark ?  Qt.rgba(255/255,255/255,255/255,1) : Qt.rgba(27/255,27/255,27/255,1)
+        }
         inputMethodHints: control.inputMethodHints
         validator: control.validator
         selectByMouse: true
         verticalAlignment: Text.AlignVCenter
-        leftInset:1
-        topInset:1
-        bottomInset:1
-        rightInset:1
         background: FluTextBoxBackground{
-            borderWidth: 0
+            border.width: 1
+            bottomMargin: {
+                if(!control.editable){
+                    return 1
+                }
+                return contentItem && contentItem.activeFocus ? 2 : 1
+            }
             inputItem: contentItem
         }
         Component.onCompleted: {
@@ -75,7 +84,6 @@ T.ComboBox {
             accepted()
         }
     }
-
     background: Rectangle {
         implicitWidth: 140
         implicitHeight: 32
@@ -95,12 +103,11 @@ T.ComboBox {
             return hovered ? hoverColor :normalColor
         }
     }
-
     popup: T.Popup {
         y: control.height
         width: control.width
         height: Math.min(contentItem.implicitHeight, control.Window.height - topMargin - bottomMargin)
-        topMargin: 6
+        topMargin: 32
         bottomMargin: 6
         modal: true
         contentItem: ListView {
@@ -117,7 +124,7 @@ T.ComboBox {
                 property: "opacity"
                 from:0
                 to:1
-                duration: FluTheme.enableAnimation ? 83 : 0
+                duration: FluTheme.animationEnabled ? 83 : 0
             }
         }
         exit:Transition {
@@ -125,14 +132,13 @@ T.ComboBox {
                 property: "opacity"
                 from:1
                 to:0
-                duration: FluTheme.enableAnimation ? 83 : 0
+                duration: FluTheme.animationEnabled ? 83 : 0
             }
         }
         background:Rectangle{
-            color:FluTheme.dark ? Qt.rgba(45/255,45/255,45/255,1) : Qt.rgba(249/255,249/255,249/255,1)
-            border.color: FluTheme.dark ? Window.active ? Qt.rgba(55/255,55/255,55/255,1):Qt.rgba(45/255,45/255,45/255,1) : Qt.rgba(226/255,229/255,234/255,1)
-            border.width: 1
             radius: 5
+            color: FluTheme.dark ? Qt.rgba(43/255,43/255,43/255,1) : Qt.rgba(1,1,1,1)
+            border.color: FluTheme.dark ? Qt.rgba(26/255,26/255,26/255,1) : Qt.rgba(191/255,191/255,191/255,1)
             FluShadow{
                 radius: 5
             }

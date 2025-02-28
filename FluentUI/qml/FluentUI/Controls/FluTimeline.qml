@@ -15,6 +15,9 @@ Item{
         property bool isRight: control.mode === FluTimelineType.Right
         property bool isAlternate: control.mode === FluTimelineType.Alternate
         property bool hasLable: {
+            if(!model){
+                return false
+            }
             for(var i=0;i<model.count;i++){
                 var lable = model.get(i).lable
                 if(lable !== undefined && undefined !== ""){
@@ -39,8 +42,14 @@ Item{
     Rectangle{
         id:rect_line
         color: control.lineColor
-        height: parent.height
+        height: {
+            if(repeater.count===0){
+                return parent.height
+            }
+            return parent.height - layout_column.children[repeater.count-1].height
+        }
         width: 2
+        visible: repeater.count!==0
         state: d.stateName
         states: [
             State {
@@ -89,9 +98,14 @@ Item{
     Component{
         id:com_lable
         FluText{
-            wrapMode: Text.WrapAnywhere
+            wrapMode: Text.WordWrap
             horizontalAlignment: isRight ? Qt.AlignRight : Qt.AlignLeft
-            text: modelData.lable
+            text: {
+                if(modelData.lable){
+                    return modelData.lable
+                }
+                return ""
+            }
             color: FluTheme.primaryColor
         }
     }
@@ -99,7 +113,7 @@ Item{
     Component{
         id:com_text
         FluText{
-            wrapMode: Text.WrapAnywhere
+            wrapMode: Text.WordWrap
             horizontalAlignment: isRight ? Qt.AlignRight : Qt.AlignLeft
             text: modelData.text
             textFormat: Text.RichText
@@ -110,6 +124,7 @@ Item{
         id:layout_column
         spacing: 30
         width: control.width
+        height: repeater.count === 0 ? 1 : childrenRect.height
         Repeater{
             id:repeater
             Item{

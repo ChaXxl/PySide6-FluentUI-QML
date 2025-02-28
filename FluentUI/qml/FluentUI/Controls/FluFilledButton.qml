@@ -30,14 +30,13 @@ Button {
     font:FluTextStyle.Body
     verticalPadding: 0
     horizontalPadding:12
-    background: Rectangle{
-        implicitWidth: 28
-        implicitHeight: 28
+    background: FluControlBackground{
+        implicitWidth: 30
+        implicitHeight: 30
         radius: 4
-        FluFocusRectangle{
-            visible: control.visualFocus
-            radius:4
-        }
+        bottomMargin: enabled ? 2 : 0
+        border.width: enabled ? 1 : 0
+        border.color: enabled ? Qt.darker(control.normalColor,1.2) : disableColor
         color:{
             if(!enabled){
                 return disableColor
@@ -46,6 +45,10 @@ Button {
                 return pressedColor
             }
             return hovered ? hoverColor :normalColor
+        }
+        FluFocusRectangle{
+            visible: control.visualFocus
+            radius:4
         }
     }
     contentItem: FluText {

@@ -22,6 +22,7 @@ T.SpinBox {
         bottom: Math.min(control.from, control.to)
         top: Math.max(control.from, control.to)
     }
+    font: FluTextStyle.Body
 
     contentItem: TextInput {
         property color normalColor: FluTheme.dark ?  Qt.rgba(255/255,255/255,255/255,1) : Qt.rgba(27/255,27/255,27/255,1)
@@ -40,7 +41,7 @@ T.SpinBox {
             }
             return normalColor
         }
-        selectionColor: FluTools.colorAlpha(FluTheme.primaryColor,0.5)
+        selectionColor: FluTools.withOpacity(FluTheme.primaryColor,0.5)
         selectedTextColor: color
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
@@ -63,7 +64,7 @@ T.SpinBox {
                 }
             }
             Behavior on height{
-                enabled: FluTheme.enableAnimation
+                enabled: FluTheme.animationEnabled
                 NumberAnimation{
                     duration: 83
                     easing.type: Easing.OutCubic
