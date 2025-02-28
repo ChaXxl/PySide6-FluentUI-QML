@@ -1,19 +1,18 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"Acrylic"
+    title: qsTr("Acrylic")
 
     RowLayout{
         spacing: 10
-        Layout.topMargin: 20
         FluText{
-            text:"tintColor:"
+            text: qsTr("tintColor:")
             Layout.alignment: Qt.AlignVCenter
         }
         FluColorPicker{
@@ -23,7 +22,7 @@ FluScrollablePage{
     RowLayout{
         spacing: 10
         FluText{
-            text:"tintOpacity:"
+            text: qsTr("tintOpacity:")
             Layout.alignment: Qt.AlignVCenter
         }
         FluSlider{
@@ -34,7 +33,7 @@ FluScrollablePage{
     RowLayout{
         spacing: 10
         FluText{
-            text:"blurRadius:"
+            text: qsTr("blurRadius:")
             Layout.alignment: Qt.AlignVCenter
         }
         FluSlider{
@@ -42,10 +41,10 @@ FluScrollablePage{
             value: 32
         }
     }
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 1200/4+20
-        paddings: 10
+        Layout.preferredHeight: 1200/4+20
+        padding: 10
         Layout.topMargin: 10
         FluClip{
             width: 1920/4
@@ -54,7 +53,7 @@ FluScrollablePage{
             Image {
                 id:image
                 asynchronous: true
-                source: "qrc:/example/res/image/bg_scenic.png"
+                source: "qrc:/example/res/image/bg_scenic.jpg"
                 anchors.fill: parent
                 sourceSize: Qt.size(2*width,2*height)
             }
@@ -64,19 +63,20 @@ FluScrollablePage{
                 width: 200
                 height: 200
                 tintOpacity: slider_tint_opacity.value/100
-                tintColor: color_picker.colorValue
+                tintColor: color_picker.current
                 blurRadius: slider_blur_radius.value
                 x:(image.width-width)/2
                 y:(image.height-height)/2
                 FluText {
                     anchors.centerIn: parent
-                    text: "Acrylic"
+                    text: qsTr("Acrylic")
                     color: "#FFFFFF"
-                    font.bold: true
+                    font: FluTextStyle.Subtitle
                 }
                 MouseArea {
                     property point clickPos: Qt.point(0,0)
                     id:drag_area
+                    preventStealing: true
                     anchors.fill: parent
                     onPressed: (mouse)=>{
                                    clickPos = Qt.point(mouse.x, mouse.y)
@@ -94,7 +94,7 @@ FluScrollablePage{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'Image{
     id:image
     width: 800

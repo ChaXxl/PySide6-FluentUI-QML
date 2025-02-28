@@ -1,14 +1,14 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import FluentUI
-import example
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import FluentUI 1.0
+import example 1.0
+import "../component"
 
 FluWindow {
 
     id:window
-    title:"热加载"
+    title: qsTr("Hot Loader")
     width: 800
     height: 600
     minimumWidth: 520
@@ -20,12 +20,12 @@ FluWindow {
             loader.reload()
         }
     }
-    FluArea{
+    FluFrame{
         anchors.fill: parent
         FluRemoteLoader{
             id:loader
             anchors.fill: parent
-            statusMode: FluStatusViewType.Success
+            statusMode: FluStatusLayoutType.Success
             lazy: true
             errorItem: Item{
                 FluText{
@@ -40,10 +40,10 @@ FluWindow {
             }
         }
         FluText{
-            text:"拖入qml文件"
-            font.pixelSize: 26
+            text: qsTr("Drag in a qml file")
+            font: FluTextStyle.Title
             anchors.centerIn: parent
-            visible: !loader.itemLodaer().item && loader.statusMode === FluStatusViewType.Success
+            visible: !loader.itemLodaer().item && loader.statusMode === FluStatusLayoutType.Success
         }
         Rectangle{
             radius: 4

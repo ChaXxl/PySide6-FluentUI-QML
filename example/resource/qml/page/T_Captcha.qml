@@ -1,17 +1,16 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"Captcha"
+    title: qsTr("Captcha")
 
     FluCaptcha{
-        id:captcha
-        Layout.topMargin: 20
+        id: captcha
         ignoreCase:switch_case.checked
         MouseArea{
             anchors.fill: parent
@@ -23,7 +22,7 @@ FluScrollablePage{
     }
 
     FluButton{
-        text:"Refresh"
+        text: qsTr("Refresh")
         Layout.topMargin: 20
         onClicked: {
             captcha.refresh()
@@ -31,8 +30,8 @@ FluScrollablePage{
     }
 
     FluToggleSwitch{
-        id:switch_case
-        text:"Ignore Case"
+        id: switch_case
+        text: qsTr("Ignore Case")
         checked: true
         Layout.topMargin: 10
     }
@@ -42,17 +41,17 @@ FluScrollablePage{
         Layout.topMargin: 10
         FluTextBox{
             id:text_box
-            placeholderText: "请输入验证码"
+            placeholderText: qsTr("Please enter a verification code")
             Layout.preferredWidth: 240
         }
         FluButton{
-            text:"verify"
+            text: qsTr("verify")
             onClicked: {
                 var success =  captcha.verify(text_box.text)
                 if(success){
-                    showSuccess("验证码正确")
+                    showSuccess(qsTr("The verification code is correct"))
                 }else{
-                    showError("错误验证，请重新输入")
+                    showError(qsTr("Error validation, please re-enter"))
                 }
             }
         }

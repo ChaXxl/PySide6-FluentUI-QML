@@ -1,30 +1,31 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"Badge"
+    title: qsTr("Badge")
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        Layout.topMargin: 20
-        height: 106
-        paddings: 10
+        height: 120
+        padding: 10
 
         Column{
             spacing: 15
             anchors{
                 verticalCenter: parent.verticalCenter
                 left: parent.left
+                right: parent.right
             }
             FluText{
-                text:"一般出现在通知图标或头像的右上角，用于显示需要处理的消息条数"
+                wrapMode: Text.WrapAnywhere
+                width: parent.width
+                text: qsTr("It usually appears in the upper right corner of the notification icon or avatar to display the number of messages that need to be processed")
             }
-
             Row{
                 spacing: 20
                 Rectangle{
@@ -112,7 +113,7 @@ FluScrollablePage{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'Rectangle{
     width: 40
     height: 40

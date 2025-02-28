@@ -1,26 +1,25 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Window
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"TimePicker"
+    title: qsTr("DatePicker")
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        Layout.topMargin: 20
-        height: 80
-        paddings: 10
+        Layout.preferredHeight: 80
+        padding: 10
         ColumnLayout{
             anchors{
                 verticalCenter: parent.verticalCenter
                 left: parent.left
             }
             FluText{
-                text:"showYear=true"
+                text: qsTr("showYear=true")
             }
             FluDatePicker{
                 current: new Date()
@@ -32,27 +31,27 @@ FluScrollablePage{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluDatePicker{
 
 }'
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         Layout.topMargin: 20
-        height: 80
-        paddings: 10
+        Layout.preferredHeight: 80
+        padding: 10
         ColumnLayout{
             anchors{
                 verticalCenter: parent.verticalCenter
                 left: parent.left
             }
             FluText{
-                text:"showYear=false"
+                text: qsTr("showYear=false")
             }
             FluDatePicker{
-                showYear:false
+                showYear: false
                 onAccepted: {
                     showSuccess(current.toLocaleDateString())
                 }
@@ -61,7 +60,7 @@ FluScrollablePage{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluDatePicker{
     showYear:false
 }'

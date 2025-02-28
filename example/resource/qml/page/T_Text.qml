@@ -1,31 +1,39 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Window
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"Text"
+    title: qsTr("Text")
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        Layout.topMargin: 20
-        height: 60
-        paddings: 10
+        Layout.preferredHeight: 60
+        padding: 10
 
         FluCopyableText{
-            text: "这是一个可以支持复制的Text"
+            enabled: !toggle_switch.checked
+            text: qsTr("This is a text that can be copied")
             anchors.verticalCenter: parent.verticalCenter
         }
 
+        FluToggleSwitch{
+            id: toggle_switch
+            anchors{
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+            }
+            text: qsTr("Disabled")
+        }
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluCopyableText{
-    text:"这是一个可以支持复制的Text"
+    text: qsTr("This is a text that can be copied")
 }'
     }
 

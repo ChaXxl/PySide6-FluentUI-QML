@@ -1,25 +1,47 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import "qrc:///example/qml/global"
-import FluentUI
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../window"
+import "../global"
 
 FluScrollablePage{
 
     launchMode: FluPageType.SingleTask
-    animDisabled: true
+    animationEnabled: false
+    header: Item{}
 
     ListModel{
-        id:model_header
+        id: model_header
         ListElement{
-            icon:"qrc:/example/res/image/ic_home_github.png"
-            title:"FluentUI GitHub"
-            desc:"The latest FluentUI controls and styles for your applications."
-            url:"https://github.com/zhuzichu520/FluentUI"
+            icon: "qrc:/example/res/image/logo_pro.png"
+            title: qsTr("FluentUI Pro")
+            desc: qsTr("The latest FluentUI Pro controls and styles for your applications.")
+            url: "https://github.com/zhuzichu520/FluentUI-Pro-Installer"
+            clicked: function(model){
+                Qt.openUrlExternally(model.url)
+            }
+        }
+        ListElement{
+            icon: "qrc:/example/res/image/ic_home_github.png"
+            title: qsTr("FluentUI GitHub")
+            desc: qsTr("The latest FluentUI controls and styles for your applications.")
+            url: "https://github.com/zhuzichu520/FluentUI"
+            clicked: function(model){
+                Qt.openUrlExternally(model.url)
+            }
+        }
+        ListElement{
+            icon: "qrc:/example/res/image/favicon.ico"
+            title: qsTr("FluentUI Initializr")
+            desc: qsTr("FluentUI Initializr is a Tool that helps you create and customize Fluent UI projects with various options.")
+            url: "https://github.com/zhuzichu520/FluentUI"
+            clicked: function(model){
+                fluent_Initializr.showDialog()
+            }
         }
     }
-
     Item{
         Layout.fillWidth: true
         Layout.preferredHeight: 320
@@ -48,7 +70,6 @@ FluScrollablePage{
                 leftMargin: 20
             }
         }
-
         Component{
             id:com_grallery
             Item{
@@ -106,6 +127,7 @@ FluScrollablePage{
                             Layout.leftMargin: 20
                             color: FluColors.Grey120
                             font.pixelSize: 12
+                            font.family: FluTextStyle.family
                             wrapMode: Text.WrapAnywhere
                         }
                     }
@@ -129,7 +151,7 @@ FluScrollablePage{
                                 else scrollbar_header.increase()
                             }
                         onClicked: {
-                            Qt.openUrlExternally(model.url)
+                            model.clicked(model)
                         }
                     }
                 }
@@ -162,7 +184,7 @@ FluScrollablePage{
             property string desc: modelData.extra.desc
             width: 320
             height: 120
-            FluArea{
+            FluFrame{
                 radius: 8
                 width: 300
                 height: 100
@@ -275,3 +297,4 @@ FluScrollablePage{
     }
 
 }
+

@@ -1,8 +1,8 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import FluentUI 1.0
+import "../component"
 
 FluWindow {
 
@@ -37,7 +37,7 @@ FluWindow {
 
     FluText{
         anchors.centerIn: parent
-        text:"我是一个Standard模式的窗口，每次我都会创建一个新的窗口"
+        text: qsTr("I'm a Standard mode window, and every time I create a new window")
     }
 
 }

@@ -1,13 +1,13 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"Carousel"
+    title: qsTr("Carousel")
 
     ListModel{
         id:data_model
@@ -22,11 +22,10 @@ FluScrollablePage{
         }
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         height: 370
-        paddings: 10
-        Layout.topMargin: 20
+        padding: 10
         Column{
             spacing: 15
             anchors{
@@ -34,7 +33,7 @@ FluScrollablePage{
                 left:parent.left
             }
             FluText{
-                text:"轮播图，支持无限轮播，无限滑动，用ListView实现的组件"
+                text: qsTr("Carousel map, support infinite carousel, infinite swipe, and components implemented with ListView")
             }
             Item{
                 width: 400
@@ -62,10 +61,10 @@ FluScrollablePage{
         }
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         height: 340
-        paddings: 10
+        padding: 10
         Layout.topMargin: 10
         Column{
             spacing: 15
@@ -104,7 +103,6 @@ FluScrollablePage{
                                     horizontalAlignment: Qt.AlignHCenter
                                     text:model.title
                                     color: FluColors.Grey10
-                                    font.pixelSize: 15
                                 }
                             }
                         }
@@ -126,7 +124,7 @@ FluScrollablePage{
 
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluCarousel{
     id:carousel
     width: 400

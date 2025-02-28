@@ -1,19 +1,22 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"InfoBar"
+    title: qsTr("InfoBar")
 
-    FluArea{
+    property var info1
+    property var info2
+    property var info3
+
+    FluFrame{
         Layout.fillWidth: true
-        Layout.topMargin: 20
-        height: 270
-        paddings: 10
+        Layout.preferredHeight: 350
+        padding: 10
         ColumnLayout{
             spacing: 14
             anchors{
@@ -21,37 +24,83 @@ FluScrollablePage{
                 left: parent.left
             }
             FluButton{
-                text:"Info"
+                text: qsTr("Info")
                 onClicked: {
-                    showInfo("这是一个Info样式的InfoBar")
+                    showInfo(qsTr("This is an InfoBar in the Info Style"))
                 }
             }
             FluButton{
-                text:"Warning"
+                text: qsTr("Warning")
                 onClicked: {
-                    showWarning("这是一个Warning样式的InfoBar")
+                    showWarning(qsTr("This is an InfoBar in the Warning Style"))
                 }
             }
             FluButton{
-                text:"Error"
+                text: qsTr("Error")
                 onClicked: {
-                    showError("这是一个Error样式的InfoBar")
+                    showError(qsTr("This is an InfoBar in the Error Style"))
                 }
             }
             FluButton{
-                text:"Success"
+                text: qsTr("Success")
                 onClicked: {
-                    showSuccess("这是一个Success样式的InfoBar这是一个Success样式的InfoBar")
+                    showSuccess(qsTr("This is an InfoBar in the Success Style"))
                 }
             }
             FluButton{
-                text:"手动关闭的InfoBar"
+                text: qsTr("InfoBar that needs to be turned off manually")
                 onClicked: {
-                    showInfo("这是一个Info样式的InfoBar",0,"支持手动关闭")
+                    showInfo(qsTr("This is an InfoBar in the Info Style"),0,qsTr("Manual shutdown is supported"))
                 }
             }
+            FluText{
+                wrapMode: Text.WrapAnywhere
+                width: parent.width
+                text: qsTr("Manually close the info message box")
+            }
+            Row{
+                spacing: 5
+                FluButton{
+                    text: (info1 ? qsTr("close '%1'") : qsTr("show '%1'")).arg(qsTr("info1"))
+                    onClicked: {
+                        if(info1) {
+                            info1.close()
+                            return
+                        }
+                        info1 = showInfo(qsTr("This is an '%1'").arg(qsTr("info1")), 0)
+                        info1.close()
+                    }
+                }
+                FluButton{
+                    text: (info2 ? qsTr("close '%1'") : qsTr("show '%1'")).arg(qsTr("info2"))
+                    onClicked: {
+                        if(info2) {
+                            info2.close()
+                            return
+                        }
+                        info2 = showInfo(qsTr("This is an '%1'").arg(qsTr("info2")), 0)
+                    }
+                }
+                FluButton{
+                    text: (info3 ? qsTr("close '%1'") : qsTr("show '%1'")).arg(qsTr("info3"))
+                    onClicked: {
+                        if(info3) {
+                            info3.close()
+                            return
+                        }
+                        info3 = showInfo(qsTr("This is an '%1'").arg(qsTr("info3")), 0)
+                    }
+                }
+                FluButton{
+                    text: qsTr("clear all info")
+                    onClicked: {
+                        clearAllInfo()
+                    }
+                }
+            }
+
             FluButton{
-                text:"Loading"
+                text: qsTr("Loading")
                 onClicked: {
                     showLoading()
                 }
@@ -60,13 +109,18 @@ FluScrollablePage{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
-        code:'showInfo("这是一个Info样式的InfoBar")
+        Layout.topMargin: -6
+        code:`
+showInfo(qsTr("This is an InfoBar in the Info Style"))
 
-showWarning("这是一个Warning样式的InfoBar")
+showWarning(qsTr("This is an InfoBar in the Warning Style"))
 
-showError("这是一个Error样式的InfoBar")
+showError(qsTr("This is an InfoBar in the Error Style"))
 
-showSuccess("这是一个Success样式的InfoBar这是一个Success样式的InfoBar")'
+showSuccess(qsTr("This is an InfoBar in the Success Style"))
+
+var info1 = showInfo(qsTr("This is an 'Info1'"), 0)
+info1.close()
+`
     }
 }

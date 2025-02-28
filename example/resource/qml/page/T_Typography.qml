@@ -1,67 +1,66 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-import FluentUI
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
 
 FluContentPage {
 
     property real textScale: 1
 
-    title: "Typography"
+    title: qsTr("Typography")
     rightPadding: 10
 
-    FluArea{
+    FluFrame{
         anchors{
             top:parent.top
             left: parent.left
             right: parent.right
             bottom: parent.bottom
-            topMargin: 20
         }
-        paddings: 10
+        padding: 10
         ColumnLayout{
             spacing: 0
             scale: textScale
             transformOrigin: Item.TopLeft
             FluText{
                 id:text_Display
-                text:"Display"
+                text: qsTr("Display")
                 padding: 0
                 font: FluTextStyle.Display
             }
             FluText{
                 id:text_TitleLarge
-                text:"Title Large"
+                text: qsTr("Title Large")
                 padding: 0
                 font: FluTextStyle.TitleLarge
             }
             FluText{
                 id:text_Title
-                text:"Title"
+                text: qsTr("Title")
                 padding: 0
                 font: FluTextStyle.Title
             }
             FluText{
                 id:text_Subtitle
-                text:"Subtitle"
+                text:  qsTr("Subtitle")
                 padding: 0
                 font: FluTextStyle.Subtitle
             }
             FluText{
                 id:text_BodyStrong
-                text:"Body Strong"
+                text: qsTr("Body Strong")
                 padding: 0
                 font: FluTextStyle.BodyStrong
             }
             FluText{
                 id:text_Body
-                text:"Body"
+                text: qsTr("Body")
                 padding: 0
                 font: FluTextStyle.Body
             }
             FluText{
                 id:text_Caption
-                text:"Caption"
+                text: qsTr("Caption")
                 padding: 0
                 font: FluTextStyle.Caption
             }

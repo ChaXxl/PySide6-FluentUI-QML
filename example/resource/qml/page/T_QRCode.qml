@@ -1,21 +1,20 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Window
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"QRCode"
+    title: qsTr("QRCode")
 
     FluQRCode{
         id:qrcode
-        Layout.topMargin: 20
         size:slider_size.value
         text:text_box.text
-        color:color_picker.colorValue
-        bgColor: bgcolor_picker.colorValue
+        color:color_picker.current
+        bgColor: bgcolor_picker.current
         margins:slider_margins.value
         Layout.preferredWidth: size
         Layout.preferredHeight: size
@@ -25,7 +24,7 @@ FluScrollablePage{
         spacing: 10
         Layout.topMargin: 20
         FluText{
-            text:"text:"
+            text: qsTr("text:")
             Layout.alignment: Qt.AlignVCenter
         }
         FluTextBox{
@@ -39,14 +38,12 @@ FluScrollablePage{
         spacing: 10
         Layout.topMargin: 10
         FluText{
-            text:"color:"
+            text: qsTr("color:")
             Layout.alignment: Qt.AlignVCenter
         }
         FluColorPicker{
             id:color_picker
-            Component.onCompleted: {
-                setColor(Qt.rgba(0,0,0,1))
-            }
+            current: Qt.rgba(0,0,0,1)
         }
     }
 
@@ -54,21 +51,19 @@ FluScrollablePage{
         spacing: 10
         Layout.topMargin: 10
         FluText{
-            text:"bgColor:"
+            text: qsTr("bgColor:")
             Layout.alignment: Qt.AlignVCenter
         }
         FluColorPicker{
             id:bgcolor_picker
-            Component.onCompleted: {
-                setColor(Qt.rgba(1,1,1,1))
-            }
+            current: Qt.rgba(1,1,1,1)
         }
     }
 
     RowLayout{
         spacing: 10
         FluText{
-            text:"margins:"
+            text: qsTr("margins:")
             Layout.alignment: Qt.AlignVCenter
         }
         FluSlider{
@@ -82,7 +77,7 @@ FluScrollablePage{
     RowLayout{
         spacing: 10
         FluText{
-            text:"size:"
+            text: qsTr("size:")
             Layout.alignment: Qt.AlignVCenter
         }
         FluSlider{

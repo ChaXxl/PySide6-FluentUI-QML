@@ -1,22 +1,22 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"Bubble Chart"
+    title: qsTr("Bubble Chart")
 
     function randomScalingFactor() {
         return Math.random().toFixed(1);
     }
 
-    FluArea{
-        height: 370
-        width: 500
-        paddings: 10
+    FluFrame{
+        Layout.preferredWidth: 500
+        Layout.preferredHeight: 370
+        padding: 10
         Layout.topMargin: 20
         FluChart{
             anchors.fill: parent

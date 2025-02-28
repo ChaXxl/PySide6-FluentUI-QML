@@ -1,52 +1,38 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/global"
-import "qrc:///example/qml/component"
-import "qrc:///example/qml/viewmodel"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
+import "../global"
 
 FluScrollablePage{
 
-    title:"Settings"
-
-    SettingsViewModel{
-        id:viewmodel_settings
-    }
+    title: qsTr("Settings")
 
     FluEvent{
-        id:event_checkupdate_finish
         name: "checkUpdateFinish"
         onTriggered: {
             btn_checkupdate.loading = false
         }
     }
 
-    Component.onCompleted: {
-        FluEventBus.registerEvent(event_checkupdate_finish)
-    }
-
-    Component.onDestruction: {
-        FluEventBus.unRegisterEvent(event_checkupdate_finish)
-    }
-
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         Layout.topMargin: 20
-        height: 60
-        paddings: 10
+        Layout.preferredHeight: 60
+        padding: 10
         Row{
             spacing: 20
             anchors.verticalCenter: parent.verticalCenter
             FluText{
-                text:"当前版本 v%1".arg(AppInfo.version)
+                text: "%1 v%2".arg(qsTr("Current Version")).arg(AppInfo.version)
                 font: FluTextStyle.Body
                 anchors.verticalCenter: parent.verticalCenter
             }
             FluLoadingButton{
-                id:btn_checkupdate
-                text:"检查更新"
+                id: btn_checkupdate
+                text: qsTr("Check for Updates")
                 anchors.verticalCenter: parent.verticalCenter
                 onClicked: {
                     loading = true
@@ -56,13 +42,13 @@ FluScrollablePage{
         }
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         Layout.topMargin: 20
         height: 50
-        paddings: 10
+        padding: 10
         FluCheckBox{
-            text:"Use System AppBar"
+            text: qsTr("Use System AppBar")
             checked: FluApp.useSystemAppBar
             anchors.verticalCenter: parent.verticalCenter
             onClicked: {
@@ -72,13 +58,13 @@ FluScrollablePage{
         }
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         Layout.topMargin: 20
         height: 50
-        paddings: 10
+        padding: 10
         FluCheckBox{
-            text:"fitsAppBarWindows"
+            text:qsTr("Fits AppBar Windows")
             checked: window.fitsAppBarWindows
             anchors.verticalCenter: parent.verticalCenter
             onClicked: {
@@ -88,22 +74,22 @@ FluScrollablePage{
     }
 
     FluContentDialog{
-        id:dialog_restart
-        title:"友情提示"
-        message:"此操作需要重启才能生效，是否重新启动？"
+        id: dialog_restart
+        title: qsTr("Friendly Reminder")
+        message: qsTr("This action requires a restart of the program to take effect, is it restarted?")
         buttonFlags: FluContentDialogType.NegativeButton | FluContentDialogType.PositiveButton
-        negativeText: "取消"
-        positiveText:"确定"
-        onPositiveClicked:{
-            FluApp.exit(931)
+        negativeText: qsTr("Cancel")
+        positiveText: qsTr("OK")
+        onPositiveClicked: {
+            FluRouter.exit(931)
         }
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         Layout.topMargin: 20
         height: 128
-        paddings: 10
+        padding: 10
 
         ColumnLayout{
             spacing: 5
@@ -112,13 +98,13 @@ FluScrollablePage{
                 left: parent.left
             }
             FluText{
-                text:Lang.dark_mode
+                text: qsTr("Dark Mode")
                 font: FluTextStyle.BodyStrong
                 Layout.bottomMargin: 4
             }
             Repeater{
-                model: [{title:"System",mode:FluThemeType.System},{title:"Light",mode:FluThemeType.Light},{title:"Dark",mode:FluThemeType.Dark}]
-                delegate:  FluRadioButton{
+                model: [{title:qsTr("System"),mode:FluThemeType.System},{title:qsTr("Light"),mode:FluThemeType.Light},{title:qsTr("Dark"),mode:FluThemeType.Dark}]
+                delegate: FluRadioButton{
                     checked : FluTheme.darkMode === modelData.mode
                     text:modelData.title
                     clickListener:function(){
@@ -129,11 +115,11 @@ FluScrollablePage{
         }
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         Layout.topMargin: 20
         height: 160
-        paddings: 10
+        padding: 10
 
         ColumnLayout{
             spacing: 5
@@ -142,28 +128,38 @@ FluScrollablePage{
                 left: parent.left
             }
             FluText{
-                text:Lang.navigation_view_display_mode
+                text:qsTr("Navigation View Display Mode")
                 font: FluTextStyle.BodyStrong
                 Layout.bottomMargin: 4
             }
             Repeater{
-                model: [{title:"Open",mode:FluNavigationViewType.Open},{title:"Compact",mode:FluNavigationViewType.Compact},{title:"Minimal",mode:FluNavigationViewType.Minimal},{title:"Auto",mode:FluNavigationViewType.Auto}]
+                model: [{title:qsTr("Open"),mode:FluNavigationViewType.Open},{title:qsTr("Compact"),mode:FluNavigationViewType.Compact},{title:qsTr("Minimal"),mode:FluNavigationViewType.Minimal},{title:qsTr("Auto"),mode:FluNavigationViewType.Auto}]
                 delegate: FluRadioButton{
-                    checked : viewmodel_settings.displayMode===modelData.mode
-                    text:modelData.title
+                    text: modelData.title
+                    checked: GlobalModel.displayMode === modelData.mode
                     clickListener:function(){
-                        viewmodel_settings.displayMode = modelData.mode
+                        GlobalModel.displayMode = modelData.mode
                     }
                 }
             }
         }
     }
 
-    FluArea{
+    ListModel{
+        id:model_language
+        ListElement{
+            name:"en"
+        }
+        ListElement{
+            name:"zh"
+        }
+    }
+
+    FluFrame{
         Layout.fillWidth: true
         Layout.topMargin: 20
         height: 80
-        paddings: 10
+        padding: 10
 
         ColumnLayout{
             spacing: 10
@@ -171,24 +167,23 @@ FluScrollablePage{
                 top: parent.top
                 left: parent.left
             }
-
             FluText{
-                text:Lang.locale
+                text:qsTr("Language")
                 font: FluTextStyle.BodyStrong
                 Layout.bottomMargin: 4
             }
-
             Flow{
                 spacing: 5
                 Repeater{
-                    model: Lang.__localeList
-                    delegate: FluRadioButton{
-                        checked: Lang.__locale === modelData
-                        text:modelData
-                        clickListener:function(){
-                            Lang.__locale = modelData
-                        }
-                    }
+            //         model: TranslateHelper.languages
+            //         delegate: FluRadioButton{
+            //             checked: TranslateHelper.current === modelData
+            //             text:modelData
+            //             clickListener:function(){
+            //                 TranslateHelper.current = modelData
+            //                 dialog_restart.open()
+            //             }
+            //         }
                 }
             }
         }

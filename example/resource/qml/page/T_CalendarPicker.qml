@@ -1,42 +1,24 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Window
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"CalendarPicker"
+    title: qsTr("CalendarPicker")
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        Layout.topMargin: 20
-        height: 350
-        paddings: 10
-        FluCalendarView{
-        }
-    }
-    CodeExpander{
-        Layout.fillWidth: true
-        Layout.topMargin: -1
-        code:'FluCalendarView{
-
-}'
-    }
-
-    FluArea{
-        Layout.fillWidth: true
-        Layout.topMargin: 20
-        height: 80
-        paddings: 10
+        Layout.preferredHeight: 80
+        padding: 10
         ColumnLayout{
             anchors{
                 verticalCenter: parent.verticalCenter
                 left: parent.left
             }
             FluCalendarPicker{
-                current:new Date()
                 onAccepted:{
                     showSuccess(current.toLocaleString())
                 }
@@ -45,7 +27,7 @@ FluScrollablePage{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluCalendarPicker{
 
 }'

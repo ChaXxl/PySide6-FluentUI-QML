@@ -1,13 +1,13 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import FluentUI 1.0
+import "../component"
 
 FluWindow {
 
-    id:window
-    title:"SingleInstance"
+    id: window
+    title: qsTr("SingleInstance")
     width: 500
     height: 600
     fixSize: true
@@ -30,6 +30,6 @@ FluWindow {
             rightMargin: 20
             verticalCenter: parent.verticalCenter
         }
-        text:"我是一个SingleInstance模式的窗口，如果我存在，我会销毁之前的窗口，并创建一个新窗口"
+        text: qsTr("I'm a SingleInstance window, and if I exist, I'll destroy the previous window and create a new one")
     }
 }

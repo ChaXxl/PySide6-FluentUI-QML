@@ -1,19 +1,18 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import "qrc:///example/qml/component"
-import FluentUI
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"Slider"
+    title: qsTr("Slider")
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         Layout.preferredHeight: 200
-        Layout.topMargin: 20
-        paddings: 10
+        padding: 10
 
         Row{
             spacing: 30
@@ -27,18 +26,18 @@ FluScrollablePage{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluSlider{
     value:50
 }'
     }
 
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         Layout.preferredHeight: 200
         Layout.topMargin: 20
-        paddings: 10
+        padding: 10
         Row{
             spacing: 30
             FluRangeSlider{
@@ -51,9 +50,10 @@ FluScrollablePage{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluRangeSlider{
     orientation: Qt.Vertical
 }'
     }
 }
+

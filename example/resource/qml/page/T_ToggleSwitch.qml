@@ -1,19 +1,18 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"ToggleSwitch"
+    title: qsTr("ToggleSwitch")
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 68
-        paddings: 10
-        Layout.topMargin: 20
+        Layout.preferredHeight: 68
+        padding: 10
         Row{
             spacing: 30
             anchors.verticalCenter: parent.verticalCenter
@@ -22,26 +21,26 @@ FluScrollablePage{
             }
             FluToggleSwitch{
                 disabled: toggle_switch.checked
-                text:"Right"
+                text: qsTr("Right")
             }
             FluToggleSwitch{
                 disabled: toggle_switch.checked
-                text:"Left"
+                text: qsTr("Left")
                 textRight: false
             }
         }
         FluToggleSwitch{
-            id:toggle_switch
+            id: toggle_switch
             anchors{
                 right: parent.right
                 verticalCenter: parent.verticalCenter
             }
-            text:"Disabled"
+            text: qsTr("Disabled")
         }
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluToggleSwitch{
     text:"Text"
 }'

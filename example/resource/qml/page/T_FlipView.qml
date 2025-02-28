@@ -1,23 +1,22 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Window
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"FlipView"
+    title: qsTr("FlipView")
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 340
-        paddings: 10
-        Layout.topMargin: 20
+        Layout.preferredHeight: 340
+        padding: 10
         ColumnLayout{
             anchors.verticalCenter: parent.verticalCenter
             FluText{
-                text:"水平方向的FlipView"
+                text: qsTr("Horizontal FlipView")
             }
             FluFlipView{
                 Image{
@@ -40,7 +39,7 @@ FluScrollablePage{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluFlipView{
     Image{
         source: "qrc:/example/res/image/banner_1.jpg"
@@ -61,15 +60,15 @@ FluScrollablePage{
 '
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         height: 340
-        paddings: 10
+        padding: 10
         Layout.topMargin: 20
         ColumnLayout{
             anchors.verticalCenter: parent.verticalCenter
             FluText{
-                text:"垂直方向的FlipView"
+                text: qsTr("Vertical FlipView")
             }
             FluFlipView{
                 vertical:true
@@ -93,7 +92,7 @@ FluScrollablePage{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluFlipView{
     vertical:true
     Image{

@@ -1,64 +1,53 @@
-import QtQuick
-import QtQuick.Window
-import QtQuick.Controls
-import QtQuick.Layouts
-import Qt.labs.platform
-import FluentUI
-import example
-import "qrc:///example/qml/component"
-import "qrc:///example/qml/global"
-import "qrc:///example/qml/viewmodel"
+import QtQuick 2.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQml 2.15
+import Qt.labs.platform 1.1
+import FluentUI 1.0
+import example 1.0
+import "../component"
+import "../global"
 
 FluWindow {
 
     id:window
     title: "FluentUI"
-    width: 960
-    height: 600
-    minimumWidth: 520
-    minimumHeight: 200
+    width: 1000
+    height: 668
+    minimumWidth: 668
+    minimumHeight: 320
     launchMode: FluWindowType.SingleTask
     fitsAppBarWindows: true
     appBar: FluAppBar {
         height: 30
-        darkText: Lang.dark_mode
         showDark: true
         darkClickListener:(button)=>handleDarkChanged(button)
         closeClickListener: ()=>{dialog_close.open()}
         z:7
     }
 
-    SettingsViewModel{
-        id:viewmodel_settings
+    FluentInitializrWindow{
+        id:fluent_Initializr
     }
 
     FluEvent{
-        id:event_checkupdate
         name: "checkUpdate"
         onTriggered: {
             checkUpdate(false)
         }
     }
 
-    onFirstVisible: {
-        timer_tour_delay.restart()
-    }
-
-    Timer{
-        id:timer_tour_delay
-        interval: 200
-        onTriggered: {
-            tour.open()
-        }
+    onLazyLoad: {
+        tour.open()
     }
 
     Component.onCompleted: {
         checkUpdate(true)
-        FluEventBus.registerEvent(event_checkupdate)
     }
 
     Component.onDestruction: {
-        FluEventBus.unRegisterEvent(event_checkupdate)
+        FluRouter.exit()
     }
 
     SystemTrayIcon {
@@ -70,7 +59,7 @@ FluWindow {
             MenuItem {
                 text: "退出"
                 onTriggered: {
-                    FluApp.exit()
+                    FluRouter.exit()
                 }
             }
         }
@@ -85,7 +74,7 @@ FluWindow {
     }
 
     Timer{
-        id:timer_window_hide_delay
+        id: timer_window_hide_delay
         interval: 150
         onTriggered: {
             window.hide()
@@ -93,32 +82,31 @@ FluWindow {
     }
 
     FluContentDialog{
-        id:dialog_close
-        title:"退出"
-        message:"确定要退出程序吗？"
-        negativeText:"最小化"
+        id: dialog_close
+        title: qsTr("Quit")
+        message: qsTr("Are you sure you want to exit the program?")
+        negativeText: qsTr("Minimize")
         buttonFlags: FluContentDialogType.NegativeButton | FluContentDialogType.NeutralButton | FluContentDialogType.PositiveButton
         onNegativeClicked: {
-            system_tray.showMessage("友情提示","FluentUI已隐藏至托盘,点击托盘可再次激活窗口");
+            system_tray.showMessage(qsTr("Friendly Reminder"),qsTr("FluentUI is hidden from the tray, click on the tray to activate the window again"));
             timer_window_hide_delay.restart()
         }
-        positiveText:"退出"
-        neutralText:"取消"
+        positiveText: qsTr("Quit")
+        neutralText: qsTr("Cancel")
         onPositiveClicked:{
-            FluApp.exit(0)
+            FluRouter.exit(0)
         }
     }
 
     Component{
-        id:nav_item_right_menu
+        id: nav_item_right_menu
         FluMenu{
-            id:menu
-            width: 130
+            width: 186
             FluMenuItem{
-                text: "在独立窗口打开"
-                visible: true
+                text: qsTr("Open in Separate Window")
+                font: FluTextStyle.Caption
                 onClicked: {
-                    FluApp.navigate("/pageWindow",{title:modelData.title,url:modelData.url})
+                    FluRouter.navigate("/pageWindow",{title:modelData.title,url:modelData.url})
                 }
             }
         }
@@ -174,12 +162,15 @@ FluWindow {
                         loader.reload()
                     }
                 }
+                Component.onCompleted: {
+                    window.setHitTestVisible(layout_back_buttons)
+                }
             }
             FluRemoteLoader{
                 id:loader
                 lazy: true
                 anchors.fill: parent
-                source: "https://zhu-zichu.gitee.io/Qt_163_LieflatPage.qml"
+                source: "https://zhu-zichu.gitee.io/Qt_174_LieflatPage.qml"
             }
         }
         front: Item{
@@ -194,7 +185,7 @@ FluWindow {
                 z:999
                 //Stack模式，每次切换都会将页面压入栈中，随着栈的页面增多，消耗的内存也越多，内存消耗多就会卡顿，这时候就需要按返回将页面pop掉，释放内存。该模式可以配合FluPage中的launchMode属性，设置页面的启动模式
                 //                pageMode: FluNavigationViewType.Stack
-                //NoStack模式，每次切换都会销毁之前的页面然后创建一个新的页面，只需消耗少量内存，可以配合FluViewModel保存页面数据（推荐）
+                //NoStack模式，每次切换都会销毁之前的页面然后创建一个新的页面，只需消耗少量内存
                 pageMode: FluNavigationViewType.NoStack
                 items: ItemsOriginal
                 footerItems:ItemsFooter
@@ -204,12 +195,12 @@ FluWindow {
                     }
                     return FluTools.isMacos() ? 20 : 0
                 }
-                displayMode:viewmodel_settings.displayMode
+                displayMode: GlobalModel.displayMode
                 logo: "qrc:/example/res/image/favicon.ico"
                 title:"FluentUI"
                 onLogoClicked:{
                     clickCount += 1
-                    showSuccess("点击%1次".arg(clickCount))
+                    showSuccess("%1:%2".arg(qsTr("Click Time")).arg(clickCount))
                     if(clickCount === 5){
                         loader.reload()
                         flipable.flipped = true
@@ -219,7 +210,7 @@ FluWindow {
                 autoSuggestBox:FluAutoSuggestBox{
                     iconSource: FluentIcons.Search
                     items: ItemsOriginal.getSearchData()
-                    placeholderText: Lang.search
+                    placeholderText: qsTr("Search")
                     onItemClicked:
                         (data)=>{
                             ItemsOriginal.startPageByItem(data)
@@ -230,27 +221,31 @@ FluWindow {
                     ItemsOriginal.paneItemMenu = nav_item_right_menu
                     ItemsFooter.navigationView = nav_view
                     ItemsFooter.paneItemMenu = nav_item_right_menu
+                    window.setHitTestVisible(nav_view.buttonMenu)
+                    window.setHitTestVisible(nav_view.buttonBack)
+                    window.setHitTestVisible(nav_view.imageLogo)
                     setCurrentIndex(0)
                 }
             }
         }
     }
 
-    Component{
-        id:com_reveal
-        CircularReveal{
-            id:reveal
-            target:window.layoutContainer()
-            anchors.fill: parent
-            onAnimationFinished:{
-                //动画结束后释放资源
-                loader_reveal.sourceComponent = undefined
-            }
-            onImageChanged: {
-                changeDark()
-            }
-        }
-    }
+    // Component{
+    //     id: com_reveal
+    //     CircularReveal{
+    //         id: reveal
+    //         target: window.containerItem()
+    //         anchors.fill: parent
+    //         darkToLight: FluTheme.dark
+    //         onAnimationFinished:{
+    //             //动画结束后释放资源
+    //             loader_reveal.sourceComponent = undefined
+    //         }
+    //         onImageChanged: {
+    //             changeDark()
+    //         }
+    //     }
+    // }
 
     FluLoader{
         id:loader_reveal
@@ -262,17 +257,14 @@ FluWindow {
     }
 
     function handleDarkChanged(button){
-        if(!FluTheme.enableAnimation || window.fitsAppBarWindows === false){
+        if(FluTools.isMacos() || !FluTheme.animationEnabled){
             changeDark()
         }else{
-            if(loader_reveal.sourceComponent){
-                return
-            }
             loader_reveal.sourceComponent = com_reveal
-            var target = window.layoutContainer()
+            var target = window.containerItem()
             var pos = button.mapToItem(target,0,0)
-            var mouseX = pos.x
-            var mouseY = pos.y
+            var mouseX = pos.x + button.width / 2
+            var mouseY = pos.y + button.height / 2
             var radius = Math.max(distance(mouseX,mouseY,0,0),distance(mouseX,mouseY,target.width,0),distance(mouseX,mouseY,0,target.height),distance(mouseX,mouseY,target.width,target.height))
             var reveal = loader_reveal.item
             reveal.start(reveal.width*Screen.devicePixelRatio,reveal.height*Screen.devicePixelRatio,Qt.point(mouseX,mouseY),radius)
@@ -306,13 +298,16 @@ FluWindow {
     }
 
     FluTour{
-        id:tour
+        id: tour
+        finishText: qsTr("Finish")
+        nextText: qsTr("Next")
+        previousText: qsTr("Previous")
         steps:{
             var data = []
             if(!window.useSystemAppBar){
-                data.push({title:"夜间模式",description: "这里可以切换夜间模式.",target:()=>appBar.darkButton()})
+                data.push({title:qsTr("Dark Mode"),description: qsTr("Here you can switch to night mode."),target:()=>appBar.buttonDark})
             }
-            data.push({title:"隐藏彩蛋",description: "多点几下试试！！",target:()=>nav_view.logoButton()})
+            data.push({title:qsTr("Hide Easter eggs"),description: qsTr("Try a few more clicks!!"),target:()=>nav_view.imageLogo})
             return data
         }
     }
@@ -322,7 +317,7 @@ FluWindow {
     }
 
     FluText{
-        text:"fps %1".arg(fps_item.fps)
+        text: "fps %1".arg(fps_item.fps)
         opacity: 0.3
         anchors{
             bottom: parent.bottom
@@ -335,55 +330,52 @@ FluWindow {
     FluContentDialog{
         property string newVerson
         property string body
-        id:dialog_update
-        title:"升级提示"
-        message:"FluentUI目前最新版本 "+ newVerson +" -- 当前应用版本 "+AppInfo.version+" \n现在是否去下载新版本？\n\n更新内容：\n"+body
+        id: dialog_update
+        title: qsTr("Upgrade Tips")
+        message:qsTr("FluentUI is currently up to date ")+ newVerson +qsTr(" -- The current app version") +AppInfo.version+qsTr(" \nNow go and download the new version？\n\nUpdated content: \n")+body
         buttonFlags: FluContentDialogType.NegativeButton | FluContentDialogType.PositiveButton
-        negativeText: "取消"
-        positiveText:"确定"
+        negativeText: qsTr("Cancel")
+        positiveText: qsTr("OK")
         onPositiveClicked:{
             Qt.openUrlExternally("https://github.com/zhuzichu520/FluentUI/releases/latest")
         }
     }
 
-    FluNetworkCallable{
-        id:callable
-        property bool silent: true
-        onStart: {
-            console.debug("satrt check update...")
-        }
-        onFinish: {
-            console.debug("check update finish")
-            FluEventBus.post("checkUpdateFinish");
-        }
-        onSuccess:
-            (result)=>{
-                var data = JSON.parse(result)
-                console.debug("current version "+AppInfo.version)
-                console.debug("new version "+data.tag_name)
-                if(data.tag_name !== AppInfo.version){
-                    dialog_update.newVerson =  data.tag_name
-                    dialog_update.body = data.body
-                    dialog_update.open()
-                }else{
-                    if(!silent){
-                        showInfo("当前版本已经是最新版")
-                    }
-                }
-            }
-        onError:
-            (status,errorString)=>{
-                if(!silent){
-                    showError("网络异常!")
-                }
-                console.debug(status+";"+errorString)
-            }
-    }
+    // NetworkCallable{
+    //     id:callable
+    //     property bool silent: true
+    //     onStart: {
+    //         console.debug("start check update...")
+    //     }
+    //     onFinish: {
+    //         console.debug("check update finish")
+    //         FluEventBus.post("checkUpdateFinish");
+    //     }
+    //     onSuccess:
+    //         (result)=>{
+    //             var data = JSON.parse(result)
+    //             console.debug("current version "+AppInfo.version)
+    //             console.debug("new version "+data.tag_name)
+    //             if(data.tag_name !== AppInfo.version){
+    //                 dialog_update.newVerson =  data.tag_name
+    //                 dialog_update.body = data.body
+    //                 dialog_update.open()
+    //             }else{
+    //                 if(!silent){
+    //                     showInfo(qsTr("The current version is already the latest"))
+    //                 }
+    //             }
+    //         }
+    //     onError:
+    //         (status,errorString)=>{
+    //             if(!silent){
+    //                 showError(qsTr("The network is abnormal"))
+    //             }
+    //             console.debug(status+";"+errorString)
+    //         }
+    // }
 
     function checkUpdate(silent){
-        callable.silent = silent
-        FluNetwork.get("https://api.github.com/repos/zhuzichu520/FluentUI/releases/latest")
-        .go(callable)
-    }
 
+    }
 }

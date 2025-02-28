@@ -13,9 +13,9 @@ class SettingsHelper(QObject):
     def init(self):
         iniFileName = "example.ini"
         iniFilePath = (
-            QStandardPaths.writableLocation(QStandardPaths.AppLocalDataLocation)
-            + "/"
-            + iniFileName
+                QStandardPaths.writableLocation(QStandardPaths.AppLocalDataLocation)
+                + "/"
+                + iniFileName
         )
         self._settings = QSettings(iniFilePath, QSettings.IniFormat)
 

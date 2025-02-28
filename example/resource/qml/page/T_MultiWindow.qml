@@ -1,30 +1,30 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
     property string password: ""
-    property var loginPageRegister: registerForWindowResult("/login")
 
-    title:"MultiWindow"
+    title: qsTr("MultiWindow")
 
-    Connections{
-        target: loginPageRegister
-        function onResult(data)
-        {
-            password = data.password
-        }
+    FluWindowResultLauncher{
+        id:loginResultLauncher
+        path: "/login"
+        onResult:
+            (data)=>{
+                password = data.password
+            }
+
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 86
-        paddings: 10
-        Layout.topMargin: 20
+        Layout.preferredHeight: 86
+        padding: 10
         Column{
             spacing: 15
             anchors{
@@ -32,21 +32,21 @@ FluScrollablePage{
                 left: parent.left
             }
             FluText{
-                text:"<font color='red'>Standard</font>模式窗口，每次都会创建新窗口"
+                text: qsTr("<font color='red'>Standard</font> mode window，a new window is created every time")
             }
             FluButton{
-                text:"点击创建窗口"
+                text: qsTr("Create Window")
                 onClicked: {
-                    FluApp.navigate("/standardWindow")
+                    FluRouter.navigate("/standardWindow")
                 }
             }
         }
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 86
-        paddings: 10
+        Layout.preferredHeight: 86
+        padding: 10
         Layout.topMargin: 10
         Column{
             spacing: 15
@@ -55,22 +55,22 @@ FluScrollablePage{
                 left: parent.left
             }
             FluText{
-                text:"<font color='red'>SingleTask</font>模式窗口，如果窗口存在，这激活该窗口"
+                text: qsTr("<font color='red'>SingleTask</font> mode window，If a window exists, this activates the window")
                 textFormat: Text.RichText
             }
             FluButton{
-                text:"点击创建窗口"
+                text: qsTr("Create Window")
                 onClicked: {
-                    FluApp.navigate("/singleTaskWindow")
+                    FluRouter.navigate("/singleTaskWindow")
                 }
             }
         }
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 86
-        paddings: 10
+        Layout.preferredHeight: 86
+        padding: 10
         Layout.topMargin: 10
         Column{
             spacing: 15
@@ -79,19 +79,19 @@ FluScrollablePage{
                 left: parent.left
             }
             FluText{
-                text:"<font color='red'>SingleInstance</font>模式窗口，如果窗口存在，则销毁窗口，然后新建窗口"
+                text: qsTr("<font color='red'>SingleInstance</font> mode window，If the window exists, destroy the window and create a new window")
             }
             FluButton{
-                text:"点击创建窗口"
+                text: qsTr("Create Window")
                 onClicked: {
-                    FluApp.navigate("/singleInstanceWindow")
+                    FluRouter.navigate("/singleInstanceWindow")
                 }
             }
         }
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluWindow{
   //launchMode: FluWindowType.Standard
   //launchMode: FluWindowType.SingleTask
@@ -101,10 +101,10 @@ FluScrollablePage{
     }
 
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 100
-        paddings: 10
+        Layout.preferredHeight: 100
+        padding: 10
         Layout.topMargin: 20
         Column{
             spacing: 15
@@ -113,32 +113,32 @@ FluScrollablePage{
                 left: parent.left
             }
             FluText{
-                text:"页面跳转，不携带任何参数"
+                text: qsTr("Create the window without carrying any parameters")
             }
             FluButton{
-                text:"点击跳转"
+                text: qsTr("Create Window")
                 onClicked: {
-                    FluApp.navigate("/about")
+                    FluRouter.navigate("/about")
                 }
             }
         }
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluButton{
-    text:"点击跳转"
+    text: qsTr("Create Window")
     onClicked: {
-        FluApp.navigate("/about")
+        FluRouter.navigate("/about")
     }
 }
 '
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 130
-        paddings: 10
+        Layout.preferredHeight: 130
+        padding: 10
         Layout.topMargin: 20
 
         Column{
@@ -148,36 +148,35 @@ FluScrollablePage{
                 left: parent.left
             }
             FluText{
-                text:"页面跳转，并携带参数用户名：zhuzichu"
+                text: qsTr("Create a window with the parameter username: zhuzichu")
             }
             FluButton{
-                text:"点击跳转到登录"
+                text: qsTr("Create Window")
                 onClicked: {
-                    loginPageRegister.launch({username:"zhuzichu"})
+                    loginResultLauncher.launch({username:"zhuzichu"})
                 }
             }
             FluText{
-                text:"登录窗口返回过来的密码->"+password
+                text:qsTr("Login Window Returned Password - >")+password
             }
         }
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
-        code:'property var loginPageRegister: registerForWindowResult("/login")
-
-Connections{
-    target: loginPageRegister
-    function onResult(data)
-    {
-        password = data.password
-    }
+        Layout.topMargin: -6
+        code:'FluWindowResultLauncher{
+    id:loginResultLauncher
+    path: "/login"
+    onResult:
+        (data)=>{
+            password = data.password
+     }
 }
 
 FluButton{
-    text:"点击跳转"
+    text: qsTr("Create Window")
     onClicked: {
-        loginPageRegister.launch({username:"zhuzichu"})
+        loginResultLauncher.launch({username:"zhuzichu"})
     }
 }
 '

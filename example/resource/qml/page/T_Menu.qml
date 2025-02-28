@@ -1,13 +1,13 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"Menu"
+    title: qsTr("Menu")
 
     FluMenu {
         id:menu
@@ -27,33 +27,32 @@ FluScrollablePage{
             iconSource: FluentIcons.Zoom
             iconSpacing: 3
             onTriggered: {
-                showError("Search")
+                showError(qsTr("Search"))
             }
         }
         Action {
             text: qsTr("Disable")
             enabled:false
             onTriggered: {
-                showError("Disable")
+                showError(qsTr("Disable"))
             }
         }
         FluMenuSeparator { }
         Action { text: qsTr("Check");checkable: true;checked: true}
         FluMenu{
-            title: "Save As..."
+            title: qsTr("Save As...")
             Action { text: qsTr("Doc") }
             Action { text: qsTr("PDF") }
         }
     }
 
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 100
-        paddings: 10
-        Layout.topMargin: 20
+        Layout.preferredHeight: 100
+        padding: 10
         Column{
-            id:layout_column
+            id: layout_column
             spacing: 15
             anchors{
                 verticalCenter: parent.verticalCenter
@@ -61,11 +60,11 @@ FluScrollablePage{
             }
 
             FluText{
-                text:"Menu"
+                text: qsTr("Menu")
             }
 
             FluButton{
-                text:"Show Menu Popup"
+                text: qsTr("Show Menu Popup")
                 Layout.topMargin: 20
                 onClicked:{
                     menu.popup()
@@ -78,7 +77,7 @@ FluScrollablePage{
 
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluMenu{
     id:menu
     FluMenuItem:{
@@ -99,10 +98,10 @@ menu.popup()
     }
 
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 100
-        paddings: 10
+        Layout.preferredHeight: 100
+        padding: 10
         Layout.topMargin: 20
         Column{
             spacing: 15
@@ -112,7 +111,7 @@ menu.popup()
             }
 
             FluText{
-                text:"MenuBar"
+                text: qsTr("MenuBar")
             }
 
             FluMenuBar {
@@ -129,7 +128,7 @@ menu.popup()
                         enabled:false
                     }
                     FluMenu{
-                        title: "Save As..."
+                        title: qsTr("Save As...")
                         Action { text: qsTr("Doc") }
                         Action { text: qsTr("PDF") }
                     }
@@ -151,7 +150,7 @@ menu.popup()
 
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluMenuBar{
     id:menu
     FluMenu:{
@@ -168,8 +167,4 @@ menu.popup()
 menu.popup()
 '
     }
-
-
-
-
 }

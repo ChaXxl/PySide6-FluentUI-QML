@@ -127,7 +127,6 @@
         <file>qml/global/ItemsOriginal.qml</file>
         <file>qml/global/qmldir</file>
         <file>qml/page/T_Acrylic.qml</file>
-        <file>qml/page/T_Awesome.qml</file>
         <file>qml/page/T_Badge.qml</file>
         <file>qml/page/T_BreadcrumbBar.qml</file>
         <file>qml/page/T_Buttons.qml</file>
@@ -154,10 +153,9 @@
         <file>qml/page/T_RatingControl.qml</file>
         <file>qml/page/T_Rectangle.qml</file>
         <file>qml/page/T_RemoteLoader.qml</file>
-        <file>qml/page/T_Screenshot.qml</file>
         <file>qml/page/T_Settings.qml</file>
         <file>qml/page/T_Slider.qml</file>
-        <file>qml/page/T_StatusView.qml</file>
+        <file>qml/page/T_StatusLayout.qml</file>
         <file>qml/page/T_TableView.qml</file>
         <file>qml/page/T_TabView.qml</file>
         <file>qml/page/T_Text.qml</file>
@@ -178,23 +176,43 @@
         <file>qml/window/SingleInstanceWindow.qml</file>
         <file>qml/window/SingleTaskWindow.qml</file>
         <file>qml/window/StandardWindow.qml</file>
-        <file>res/image/bg_scenic.png</file>
         <file>res/image/image_1.jpg</file>
         <file>qml/window/PageWindow.qml</file>
-        <file>qml/page/T_StaggeredView.qml</file>
-        <file>qml/viewmodel/SettingsViewModel.qml</file>
-        <file>qml/viewmodel/TextBoxViewModel.qml</file>
+        <file>qml/page/T_StaggeredLayout.qml</file>
         <file>qml/page/T_Clip.qml</file>
-        <file>qml/page/T_3D.qml</file>
-        <file>qml/global/Lang.qml</file>
         <file>qml/page/T_Network.qml</file>
         <file>qml/page/T_ShortcutPicker.qml</file>
         <file>qml/chart/T_BarChart.qml</file>
-        <file>qml/chart/T_BubbleChart.qml</file>
         <file>qml/chart/T_LineChart.qml</file>
         <file>qml/chart/T_PieChart.qml</file>
-        <file>qml/chart/T_PolarAreaChart.qml</file>
         <file>qml/chart/T_RadarChart.qml</file>
         <file>qml/chart/T_ScatterChart.qml</file>
+        <file>qml/chart/T_BubbleChart.qml</file>
+        <file>qml/chart/T_PolarAreaChart.qml</file>
+        <file>res/image/ic_crash.png</file>
+        <file>qml/window/CrashWindow.qml</file>
+        <file>qml/page/T_SplitLayout.qml</file>
+        <file>res/template/CMakeLists.txt.in</file>
+        <file>res/template/src/App.qml.in</file>
+        <file>res/template/src/CMakeLists.txt.in</file>
+        <file>res/template/src/en_US.ts.in</file>
+        <file>res/template/src/logo.ico.in</file>
+        <file>res/template/src/main.cpp.in</file>
+        <file>res/template/src/main.qml.in</file>
+        <file>res/template/src/qml.qrc.in</file>
+        <file>res/template/src/zh_CN.ts.in</file>
+        <file>res/template/src/README.md.in</file>
+        <file>qml/global/GlobalModel.qml</file>
+        <file>qml/page/T_Sheet.qml</file>
+        <file>qml/page/T_GroupBox.qml</file>
+        <file>res/image/bg_scenic.jpg</file>
+        <file>qml/window/FluentInitializrWindow.qml</file>
+        <file>qml/page/T_OpenGL.qml</file>
+        <file>qml/page/T_Icons.qml</file>
+        <file>qml/window/HotkeyWindow.qml</file>
+        <file>qml/page/T_CustomPlot.qml</file>
+        <file>res/image/logo_pro.png</file>
+        <file>qml/page/T_FluentPro.qml</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

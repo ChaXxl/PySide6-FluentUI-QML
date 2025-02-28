@@ -1,28 +1,27 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Window
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"BreadcurmbBar"
+    title: qsTr("BreadcurmbBar")
 
     Component.onCompleted: {
         var items = []
         for(var i=0;i<10;i++){
-            items.push({title:"Item_"+(i+1)})
+            items.push({title: qsTr("Item_%1").arg(i+1)})
         }
         breadcrumb_1.items = items
         breadcrumb_2.items = items
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 68
-        paddings: 10
-        Layout.topMargin: 20
+        Layout.preferredHeight: 68
+        padding: 10
 
         FluBreadcrumbBar{
             id:breadcrumb_1
@@ -36,10 +35,10 @@ FluScrollablePage{
     }
 
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 100
-        paddings: 10
+        Layout.preferredHeight: 100
+        padding: 10
         Layout.topMargin: 20
 
         ColumnLayout{
@@ -48,11 +47,11 @@ FluScrollablePage{
             spacing: 10
 
             FluFilledButton{
-                text:"Reset sample"
+                text: qsTr("Reset sample")
                 onClicked:{
                     var items = []
                     for(var i=0;i<10;i++){
-                        items.push({title:"Item_"+(i+1)})
+                        items.push({title: qsTr("Item_")+(i+1)})
                     }
                      breadcrumb_2.items = items
                 }
@@ -66,7 +65,6 @@ FluScrollablePage{
                 Layout.fillWidth: true
                 onClickItem:
                     (model)=>{
-                        //不是点击最后一个item元素
                         if(model.index+1!==count()){
                             breadcrumb_2.remove(model.index+1,count()-model.index-1)
                         }
@@ -78,7 +76,7 @@ FluScrollablePage{
 
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluBreadcrumbBar{
     width:parent.width
     separator:">"

@@ -1,22 +1,21 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"CheckBox"
+    title: qsTr("CheckBox")
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 72
-        paddings: 10
-        Layout.topMargin: 20
+        Layout.preferredHeight: 72
+        padding: 10
 
         FluText{
-            text:"A 2-state CheckBox"
+            text: qsTr("A 2-state CheckBox")
         }
 
         Row{
@@ -30,11 +29,11 @@ FluScrollablePage{
             }
             FluCheckBox{
                 disabled: check_box_switch_two.checked
-                text:"Right"
+                text: qsTr("Right")
             }
             FluCheckBox{
                 disabled: check_box_switch_two.checked
-                text:"Left"
+                text: qsTr("Left")
                 textRight: false
             }
         }
@@ -44,25 +43,25 @@ FluScrollablePage{
                 right: parent.right
                 verticalCenter: parent.verticalCenter
             }
-            text:"Disabled"
+            text: qsTr("Disabled")
         }
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluCheckBox{
     text:"Text"
 }'
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        height: 72
-        paddings: 10
+        Layout.preferredHeight: 72
+        padding: 10
         Layout.topMargin: 20
 
         FluText{
-            text:"A 3-state CheckBox"
+            text: qsTr("A 3-state CheckBox")
         }
 
         Row{
@@ -73,7 +72,7 @@ FluScrollablePage{
             }
             FluCheckBox{
                 property int count: 1
-                text:"Three State"
+                text: qsTr("Three State")
                 disabled: check_box_switch_three.checked
                 clickListener: function(){
                     var flag = count%3
@@ -94,17 +93,17 @@ FluScrollablePage{
             }
         }
         FluToggleSwitch{
-            id:check_box_switch_three
+            id:  check_box_switch_three
             anchors{
                 right: parent.right
                 verticalCenter: parent.verticalCenter
             }
-            text:"Disabled"
+            text: qsTr("Disabled")
         }
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluCheckBox{
     text:"Text"
     indeterminate:true

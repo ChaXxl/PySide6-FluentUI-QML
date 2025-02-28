@@ -1,76 +1,76 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import QtQuick.Window
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"Pivot"
+    title: qsTr("Pivot")
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        Layout.topMargin: 20
-        height: 400
-        paddings: 10
+        Layout.preferredHeight: 400
+        padding: 10
 
         FluPivot{
             anchors.fill: parent
             currentIndex: 2
+
             FluPivotItem{
-                title:"All"
+                title: qsTr("All")
                 contentItem:FluText{
-                    text:"All emails go here."
+                    text: qsTr("All emails go here.")
                 }
             }
             FluPivotItem{
-                title:"Unread"
-                contentItem:FluText{
-                    text:"Unread emails go here."
+                title: qsTr("Unread")
+                contentItem: FluText{
+                    text: qsTr("Unread emails go here.")
                 }
             }
             FluPivotItem{
-                title:"Flagged"
-                contentItem:FluText{
-                    text:"Flagged emails go here."
+                title: qsTr("Flagged")
+                contentItem: FluText{
+                    text: qsTr("Flagged emails go here.")
                 }
             }
             FluPivotItem{
-                title:"Urgent"
-                contentItem:FluText{
-                    text:"Urgent emails go here."
+                title: qsTr("Urgent")
+                contentItem: FluText{
+                    text: qsTr("Urgent emails go here.")
                 }
             }
         }
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluPivot{
     anchors.fill: parent
-    FluPivotItem:{
-        text:"All"
+    FluPivotItem {
+        title: qsTr("All")
         contentItem: FluText{
-            text:"All emails go here."
+            text: qsTr("All emails go here.")
         }
     }
-    FluPivotItem:{
-        text:"Unread"
+    FluPivotItem {
+        title: qsTr("Unread")
         contentItem: FluText{
-            text:"Unread emails go here."
+            text: qsTr("Unread emails go here.")
         }
     }
-    FluPivotItem:{
-        text:"Flagged"
+    FluPivotItem {
+        title: qsTr("Flagged")
         contentItem: FluText{
-            text:"Flagged emails go here."
+            text: qsTr("Flagged emails go here.")
         }
     }
-    FluPivotItem:{
-        text:"Urgent"
+    FluPivotItem {
+        title: qsTr("Urgent")
         contentItem: FluText{
-            text:"Urgent emails go here."
+            text: qsTr("Urgent emails go here.")
         }
     }
 }

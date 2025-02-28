@@ -1,8 +1,8 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
+import FluentUI 1.0
+import "../component"
 
 FluWindow {
 
@@ -19,9 +19,10 @@ FluWindow {
             left: parent.left
             right: parent.right
         }
+        spacing: 5
 
         RowLayout{
-            Layout.topMargin: 20
+            Layout.topMargin: 10
             Layout.leftMargin: 15
             spacing: 14
             FluText{
@@ -30,7 +31,7 @@ FluWindow {
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        FluApp.navigate("/")
+                        FluRouter.navigate("/")
                     }
                 }
             }
@@ -43,7 +44,6 @@ FluWindow {
 
         RowLayout{
             spacing: 14
-            Layout.topMargin: 20
             Layout.leftMargin: 15
             FluText{
                 text:"作者："
@@ -51,6 +51,21 @@ FluWindow {
             FluText{
                 text:"朱子楚"
                 Layout.alignment: Qt.AlignBottom
+            }
+        }
+
+        RowLayout{
+            spacing: 14
+            Layout.leftMargin: 15
+            FluText{
+                text:"微信号："
+            }
+            FluText{
+                text:"FluentUI"
+                Layout.alignment: Qt.AlignBottom
+            }
+            FluText{
+                text:"(有啥问题可能不会马上回，但发了红包必须立马回......)"
             }
         }
 

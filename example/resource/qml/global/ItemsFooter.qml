@@ -1,7 +1,7 @@
 pragma Singleton
 
-import QtQuick
-import FluentUI
+import QtQuick 2.15
+import FluentUI 1.0
 
 FluObject{
 
@@ -13,15 +13,15 @@ FluObject{
     FluPaneItemSeparator{}
 
     FluPaneItem{
-        title:Lang.about
+        title:qsTr("About")
         icon:FluentIcons.Contact
         onTapListener:function(){
-            FluApp.navigate("/about")
+            FluRouter.navigate("/about")
         }
     }
 
     FluPaneItem{
-        title:Lang.settings
+        title:qsTr("Settings")
         menuDelegate: paneItemMenu
         icon:FluentIcons.Settings
         url:"qrc:/example/qml/page/T_Settings.qml"
@@ -30,4 +30,13 @@ FluObject{
         }
     }
 
+    FluPaneItem{
+        title:qsTr("FluentUI Pro")
+        menuDelegate: paneItemMenu
+        icon: FluentIcons.Airplane
+        url:"qrc:/example/qml/page/T_FluentPro.qml"
+        onTap:{
+            navigationView.push(url)
+        }
+    }
 }

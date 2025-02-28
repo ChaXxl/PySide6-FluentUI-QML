@@ -1,19 +1,18 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage{
 
-    title:"Progress"
+    title: qsTr("Progress")
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
-        Layout.topMargin: 20
-        height: 130
-        paddings: 10
+        Layout.preferredHeight: 130
+        padding: 10
 
         ColumnLayout{
             spacing: 10
@@ -32,7 +31,7 @@ FluScrollablePage{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluProgressBar{
 
 }
@@ -42,11 +41,11 @@ FluProgressRing{
 '
     }
 
-    FluArea{
+    FluFrame{
         Layout.fillWidth: true
         Layout.topMargin: 20
-        height: 286
-        paddings: 10
+        Layout.preferredHeight: 286
+        padding: 10
 
         ColumnLayout{
             spacing: 10
@@ -88,7 +87,7 @@ FluProgressRing{
     }
     CodeExpander{
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code:'FluProgressBar{
     indeterminate: false
 }

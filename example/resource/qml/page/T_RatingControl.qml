@@ -1,19 +1,18 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Window
-import QtQuick.Controls
-import FluentUI
-import "qrc:///example/qml/component"
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import FluentUI 1.0
+import "../component"
 
 FluScrollablePage {
 
-    title: "RatingControl"
+    title: qsTr("RatingControl")
 
-    FluArea {
+    FluFrame {
         Layout.fillWidth: true
-        height: 100
-        paddings: 10
-        Layout.topMargin: 20
+        Layout.preferredHeight: 100
+        padding: 10
 
         Column {
             spacing: 10
@@ -27,7 +26,7 @@ FluScrollablePage {
 
     CodeExpander {
         Layout.fillWidth: true
-        Layout.topMargin: -1
+        Layout.topMargin: -6
         code: 'FluRatingControl{
 
 }'
